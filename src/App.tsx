@@ -1,4 +1,5 @@
-import { useReducer, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from 'sonner';
 import NewspaperMasthead from '@/components/NewspaperMasthead';
 import NewspaperNav from '@/components/NewspaperNav';
@@ -6,7 +7,6 @@ import FrontPage from '@/components/FrontPage';
 import TechStackSection from '@/components/TechStackSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ClassifiedsSection from '@/components/ClassifiedsSection';
-import { navigationReducer, initialNavigationState } from '@/reducers/navigationReducer';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { useSwipeDetection } from '@/hooks/useSwipeDetection';
 
@@ -17,12 +17,33 @@ const sections = [
   { id: 3, component: ClassifiedsSection },
 ];
 
-const App = () => {
-  const [state, dispatch] = useReducer(navigationReducer, initialNavigationState);
-  const [hasLoaded, setHasLoaded] = useState(false);
+const pageVariants = {
+  initial: (direction: number) => ({
+    rotateY: direction > 0 ? 90 : -90,
+    opacity: 0,
+    transformOrigin: direction > 0 ? "right" : "left",
+    scale: 1,
+  }),
+  animate: {
+    rotateY: 0,
+    opacity: 1,
+    scale: 1,
+    transformOrigin: "center",
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+  },
+  exit: (direction: number) => ({
+    rotateY: direction > 0 ? -90 : 90,
+    opacity: 0,
+    transformOrigin: direction > 0 ? "left" : "right",
+    scale: 1,
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+  })
+};
 
-  const { currentPage, displayedPage, animationPhase, direction } = state;
-  const isAnimating = animationPhase !== 'idle';
+const App = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   // Entry animation on first load
   useEffect(() => {
@@ -31,38 +52,25 @@ const App = () => {
   }, []);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage === currentPage || isAnimating) return;
-    dispatch({ type: 'NAVIGATE_TO', targetPage: newPage });
-  };
-
-  const handleAnimationEnd = (e: React.AnimationEvent<HTMLElement>) => {
-    // Asegurar que el evento proviene del propio contenedor de la página y no de elementos hijos
-    if (e.target !== e.currentTarget) return;
-
-    if (animationPhase === 'flipping-out') {
-      dispatch({ type: 'FLIP_OUT_COMPLETE' });
-    } else if (animationPhase === 'flipping-in') {
-      dispatch({ type: 'FLIP_IN_COMPLETE' });
-    } else if (animationPhase === 'bouncing') {
-      dispatch({ type: 'BOUNCE_COMPLETE' });
-    }
+    if (newPage === currentPage) return;
+    if (newPage < 0 || newPage >= sections.length) return;
+    setDirection(newPage > currentPage ? 1 : -1);
+    setCurrentPage(newPage);
   };
 
   // Navegación por teclado (Flechas Izquierda / Derecha)
   useKeyboardNavigation({
     currentPage,
-    isAnimating,
     onNavigate: handlePageChange,
   });
 
   // Navegación por gestos táctiles (Swipe Izquierda / Derecha)
   useSwipeDetection({
-    isAnimating,
     onSwipeLeft: () => handlePageChange(currentPage + 1),
     onSwipeRight: () => handlePageChange(currentPage - 1),
   });
 
-  const CurrentSection = sections[displayedPage].component;
+  const CurrentSection = sections[currentPage].component;
 
   return (
     <>
@@ -88,30 +96,22 @@ const App = () => {
             onPageChange={handlePageChange} 
           />
 
-          {/* 3D Viewport Container (perspective: 1200px) */}
-          <div className="newspaper-viewport w-full relative">
-            <main 
-              onAnimationEnd={handleAnimationEnd}
-              className={`
-                newspaper-sheet scroll-pt-20 transform-gpu
-                ${animationPhase === 'flipping-out' 
-                  ? direction === 'prev'
-                    ? 'animate-page-flip-out-prev'
-                    : 'animate-page-flip-out-next'
-                  : animationPhase === 'flipping-in'
-                  ? direction === 'prev'
-                    ? 'animate-page-flip-in-prev'
-                    : 'animate-page-flip-in-next'
-                  : animationPhase === 'bouncing'
-                  ? direction === 'prev'
-                    ? 'animate-bounce-edge-prev'
-                    : 'animate-bounce-edge-next'
-                  : 'opacity-100'
-                }
-              `}
-            >
-              <CurrentSection />
-            </main>
+          {/* Page Content with Framer Motion Directional Page Flip & Grid Stacking */}
+          <div className="w-full relative grid" style={{ perspective: '2000px' }}>
+            <AnimatePresence custom={direction} initial={false}>
+              <motion.main
+                key={currentPage}
+                custom={direction}
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="transform-gpu w-full"
+                style={{ gridArea: '1 / 1', backfaceVisibility: 'hidden' }}
+              >
+                <CurrentSection />
+              </motion.main>
+            </AnimatePresence>
           </div>
 
           {/* Page Indicator */}

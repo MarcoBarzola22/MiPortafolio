@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 
 interface UseKeyboardNavigationOptions {
   currentPage: number;
-  isAnimating: boolean;
+  isAnimating?: boolean;
   onNavigate: (targetPage: number) => void;
 }
 
 export const useKeyboardNavigation = ({
   currentPage,
-  isAnimating,
+  isAnimating = false,
   onNavigate,
 }: UseKeyboardNavigationOptions) => {
   useEffect(() => {

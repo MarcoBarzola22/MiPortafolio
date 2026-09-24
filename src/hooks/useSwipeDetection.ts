@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 interface UseSwipeDetectionOptions {
-  isAnimating: boolean;
+  isAnimating?: boolean;
   onSwipeLeft: () => void;
   onSwipeRight: () => void;
   threshold?: number;
@@ -23,7 +23,7 @@ function isInsideScrollable(element: HTMLElement | null): boolean {
 }
 
 export const useSwipeDetection = ({
-  isAnimating,
+  isAnimating = false,
   onSwipeLeft,
   onSwipeRight,
   threshold = 50,
