@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { Toaster } from 'sonner';
 import NewspaperMasthead from '@/components/NewspaperMasthead';
 import NewspaperNav from '@/components/NewspaperNav';
@@ -17,7 +17,7 @@ const sections = [
   { id: 3, component: ClassifiedsSection },
 ];
 
-const pageVariants = {
+const pageVariants: Variants = {
   initial: (direction: number) => ({
     rotateY: direction > 0 ? 90 : -90,
     opacity: 0,
@@ -29,14 +29,14 @@ const pageVariants = {
     opacity: 1,
     scale: 1,
     transformOrigin: "center",
-    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const }
   },
   exit: (direction: number) => ({
     rotateY: direction > 0 ? -90 : 90,
     opacity: 0,
     transformOrigin: direction > 0 ? "left" : "right",
     scale: 1,
-    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] as const }
   })
 };
 
@@ -97,7 +97,7 @@ const App = () => {
           />
 
           {/* Page Content with Framer Motion Directional Page Flip & Grid Stacking */}
-          <div className="w-full relative grid" style={{ perspective: '2000px' }}>
+          <div className="w-full relative grid min-h-[75vh]" style={{ perspective: '2000px' }}>
             <AnimatePresence custom={direction} initial={false}>
               <motion.main
                 key={currentPage}

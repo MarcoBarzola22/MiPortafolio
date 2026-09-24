@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import projectLaikavet from '@/assets/project-laikavet.jpg';
 import projectAutomation from '@/assets/project-automation.jpg';
 import projectInfrastructure from '@/assets/project-infrastructure.jpg';
@@ -14,7 +13,7 @@ interface ProjectProps {
 }
 
 const ProjectCard = ({ image, category, headline, subheadline, excerpt, tags }: ProjectProps) => (
-  <article className="article-card flex-shrink-0 w-[85vw] md:w-[400px] lg:w-[450px] bg-card border-2 border-foreground/80 overflow-hidden group">
+  <article className="article-card w-full h-full flex flex-col bg-card border-2 border-foreground/80 overflow-hidden group">
     {/* Image */}
     <div className="relative h-48 md:h-56 overflow-hidden">
       <img
@@ -33,7 +32,7 @@ const ProjectCard = ({ image, category, headline, subheadline, excerpt, tags }: 
     </div>
 
     {/* Content */}
-    <div className="p-5 md:p-6 article-highlight transition-colors duration-300">
+    <div className="p-5 md:p-6 article-highlight transition-colors duration-300 flex flex-col flex-1">
       <span className="text-xs font-body uppercase tracking-widest text-primary">
         {category}
       </span>
@@ -46,7 +45,7 @@ const ProjectCard = ({ image, category, headline, subheadline, excerpt, tags }: 
         {subheadline}
       </p>
 
-      <p className="font-body text-sm text-foreground/80 mt-4 leading-relaxed">
+      <p className="font-body text-sm text-foreground/80 mt-4 leading-relaxed flex-1">
         {excerpt}
       </p>
 
@@ -63,18 +62,6 @@ const ProjectCard = ({ image, category, headline, subheadline, excerpt, tags }: 
 );
 
 const ProjectsSection = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 450;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   const projects: ProjectProps[] = [
     {
       image: projectLaikavet,
@@ -122,41 +109,11 @@ const ProjectsSection = () => {
         <div className="border-t border-foreground/30"></div>
       </div>
 
-      {/* Scroll Controls */}
-      <div className="flex justify-end gap-2 mb-4">
-        <button
-          onClick={() => scroll('left')}
-          className="p-2 border border-foreground/30 hover:bg-secondary transition-colors"
-          aria-label="Previous project"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={() => scroll('right')}
-          className="p-2 border border-foreground/30 hover:bg-secondary transition-colors"
-          aria-label="Next project"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* Horizontal Scrolling Container */}
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto editorial-scroll pb-4 snap-x snap-mandatory"
-      >
+      {/* Vertical Adaptive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project) => (
-          <div key={project.headline} className="snap-start">
-            <ProjectCard {...project} />
-          </div>
+          <ProjectCard key={project.headline} {...project} />
         ))}
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="text-center mt-6">
-        <p className="font-body text-sm text-muted-foreground italic">
-          ← Scroll to browse more stories →
-        </p>
       </div>
     </section>
   );
