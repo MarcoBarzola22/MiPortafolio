@@ -57,23 +57,9 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
         },
       },
       borderRadius: {
@@ -81,49 +67,7 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-        "page-flip-in": {
-          "0%": {
-            transform: "perspective(2000px) rotateY(-90deg)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "perspective(2000px) rotateY(0deg)",
-            opacity: "1",
-          },
-        },
-        "unfold": {
-          "0%": {
-            transform: "scale(0.5) rotateX(20deg)",
-            opacity: "0",
-            filter: "blur(10px)",
-          },
-          "60%": {
-            transform: "scale(1.02) rotateX(0deg)",
-            opacity: "1",
-            filter: "blur(0)",
-          },
-          "100%": {
-            transform: "scale(1) rotateX(0deg)",
-            opacity: "1",
-          },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "page-flip-in": "page-flip-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-        "unfold": "unfold 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 } satisfies Config;
