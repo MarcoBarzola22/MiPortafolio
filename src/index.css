@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Paper & Editorial Theme */
+    --background: 43 33% 94%;
+    --foreground: 30 10% 15%;
+
+    --card: 43 30% 96%;
+    --card-foreground: 30 10% 15%;
+
+    --popover: 43 30% 96%;
+    --popover-foreground: 30 10% 15%;
+
+    /* Mint Green Accent */
+    --primary: 142 69% 58%;
+    --primary-foreground: 30 10% 10%;
+
+    --secondary: 40 20% 88%;
+    --secondary-foreground: 30 10% 20%;
+
+    --muted: 40 15% 85%;
+    --muted-foreground: 30 8% 45%;
+
+    --accent: 142 69% 58%;
+    --accent-foreground: 30 10% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 20% 82%;
+    --input: 35 20% 82%;
+    --ring: 142 69% 58%;
+
+    --radius: 0.25rem;
+
+    /* Editorial Typography */
+    --font-headline: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+
+    /* Paper Texture */
+    --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
+    /* Shadows */
+    --shadow-article: 0 4px 20px -4px hsl(30 10% 15% / 0.08);
+    --shadow-article-hover: 0 12px 40px -8px hsl(30 10% 15% / 0.15);
+    --shadow-page: 0 0 60px -12px hsl(30 10% 15% / 0.2);
+
+    /* Highlight gradient */
+    --highlight-gradient: linear-gradient(120deg, hsl(142 69% 58% / 0.3) 0%, hsl(142 69% 58% / 0.5) 100%);
+
+    --sidebar-background: 43 33% 94%;
+    --sidebar-foreground: 30 10% 25%;
+    --sidebar-primary: 142 69% 58%;
+    --sidebar-primary-foreground: 30 10% 10%;
+    --sidebar-accent: 40 20% 88%;
+    --sidebar-accent-foreground: 30 10% 20%;
+    --sidebar-border: 35 20% 82%;
+    --sidebar-ring: 142 69% 58%;
+  }
+
+  .dark {
+    --background: 30 10% 8%;
+    --foreground: 43 30% 92%;
+
+    --card: 30 10% 12%;
+    --card-foreground: 43 30% 92%;
+
+    --popover: 30 10% 12%;
+    --popover-foreground: 43 30% 92%;
+
+    --primary: 142 69% 58%;
+    --primary-foreground: 30 10% 10%;
+
+    --secondary: 30 8% 18%;
+    --secondary-foreground: 43 30% 90%;
+
+    --muted: 30 8% 20%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 142 69% 58%;
+    --accent-foreground: 30 10% 10%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 8% 22%;
+    --input: 30 8% 22%;
+    --ring: 142 69% 58%;
+
+    --sidebar-background: 30 10% 8%;
+    --sidebar-foreground: 43 30% 92%;
+    --sidebar-primary: 142 69% 58%;
+    --sidebar-primary-foreground: 30 10% 10%;
+    --sidebar-accent: 30 8% 18%;
+    --sidebar-accent-foreground: 43 30% 90%;
+    --sidebar-border: 30 8% 22%;
+    --sidebar-ring: 142 69% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+  }
+}
+
+@layer components {
+  /* Paper Background with Texture */
+  .paper-bg {
+    @apply bg-background relative;
+    background-image: var(--paper-texture);
+    background-blend-mode: multiply;
+  }
+
+  .paper-bg::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(var(--background)) 100%);
+    opacity: 0.3;
+  }
+
+  /* Newspaper Masthead */
+  .masthead {
+    font-family: var(--font-headline);
+    @apply text-foreground tracking-tight;
+    text-shadow: 1px 1px 0 hsl(var(--muted));
+  }
+
+  /* Mint Highlighter Effect */
+  .highlight {
+    background: var(--highlight-gradient);
+    @apply px-1 -mx-1;
+  }
+
+  .highlight-underline {
+    @apply relative inline-block;
+  }
+
+  .highlight-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[0.35em] -z-10;
+    background: hsl(var(--primary) / 0.4);
+  }
+
+  /* Article Card Hover */
+  .article-card {
+    @apply transition-all duration-300 ease-out;
+    box-shadow: var(--shadow-article);
+  }
+
+  .article-card:hover {
+    @apply -translate-y-2;
+    box-shadow: var(--shadow-article-hover);
+  }
+
+  .article-card:hover .article-highlight {
+    background: hsl(var(--primary) / 0.15);
+  }
+
+  /* Column Dividers */
+  .column-divider {
+    @apply relative;
+  }
+
+  .column-divider::after {
+    content: '';
+    @apply absolute top-0 right-0 w-px h-full bg-border;
+  }
+
+  /* Halftone Effect */
+  .halftone {
+    @apply relative overflow-hidden;
+  }
+
+  .halftone::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+  }
+
+  /* Vintage Border */
+  .vintage-border {
+    @apply border-2 border-foreground/80;
+    box-shadow: 
+      inset 0 0 0 1px hsl(var(--background)),
+      inset 0 0 0 3px hsl(var(--foreground) / 0.2);
+  }
+
+  /* Section Ornament */
+  .section-ornament {
+    @apply flex items-center gap-4 my-8;
+  }
+
+  .section-ornament::before,
+  .section-ornament::after {
+    content: '';
+    @apply flex-1 h-px bg-foreground/30;
+  }
+
+  /* Scrollbar Styling */
+  .editorial-scroll::-webkit-scrollbar {
+    @apply h-2;
+  }
+
+  .editorial-scroll::-webkit-scrollbar-track {
+    @apply bg-muted/50 rounded-full;
+  }
+
+  .editorial-scroll::-webkit-scrollbar-thumb {
+    @apply bg-foreground/20 rounded-full;
+  }
+
+  .editorial-scroll::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground/30;
+  }
+}
+
+@layer utilities {
+  /* Page Flip Animation */
+  @keyframes page-flip-in {
+    0% {
+      transform: perspective(2000px) rotateY(-90deg);
+      opacity: 0;
+      transform-origin: left center;
+    }
+    100% {
+      transform: perspective(2000px) rotateY(0deg);
+      opacity: 1;
+      transform-origin: left center;
+    }
+  }
+
+  @keyframes page-flip-out {
+    0% {
+      transform: perspective(2000px) rotateY(0deg);
+      opacity: 1;
+      transform-origin: right center;
+    }
+    100% {
+      transform: perspective(2000px) rotateY(90deg);
+      opacity: 0;
+      transform-origin: right center;
+    }
+  }
+
+  /* Newspaper Unfold Entry */
+  @keyframes unfold {
+    0% {
+      transform: scale(0.5) rotateX(20deg);
+      opacity: 0;
+      filter: blur(10px);
+    }
+    60% {
+      transform: scale(1.02) rotateX(0deg);
+      opacity: 1;
+      filter: blur(0);
+    }
+    100% {
+      transform: scale(1) rotateX(0deg);
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  /* Fade In Up */
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Stagger Children */
+  @keyframes stagger-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-unfold {
+    animation: unfold 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-page-flip-in {
+    animation: page-flip-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-page-flip-out {
+    animation: page-flip-out 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-stagger-in {
+    animation: stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Stagger delays */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+  .stagger-6 { animation-delay: 0.6s; }
+
+  /* Typography Utilities */
+  .font-headline {
+    font-family: var(--font-headline);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  /* Drop Cap */
+  .drop-cap::first-letter {
+    @apply float-left text-6xl font-headline font-bold leading-none mr-2 mt-1;
+    color: hsl(var(--primary));
+  }
+
+  /* Editorial Quote */
+  .pull-quote {
+    @apply font-headline text-2xl italic border-l-4 border-primary pl-6 my-8;
+  }
+}
