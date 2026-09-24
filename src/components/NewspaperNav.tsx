@@ -14,18 +14,19 @@ const NewspaperNav = ({ currentPage, onPageChange }: NavProps) => {
   return (
     <nav
       aria-label="Secciones del periódico"
-      className="sticky top-0 z-30 w-full bg-background/95 backdrop-blur-sm border-t border-b border-foreground/30 py-3 mb-8 transition-colors"
+      className="sticky top-0 z-30 w-full bg-paper-base/95 backdrop-blur-sm border-t border-b border-rule-bold py-3 mb-8 transition-colors"
     >
       <div className="flex justify-center gap-1 md:gap-2">
         {pages.map((page) => (
           <button
             key={page.id}
+            type="button"
             onClick={() => onPageChange(page.id)}
             className={`
-              px-3 md:px-6 py-2 font-headline text-sm md:text-base transition-all duration-300
+              px-3 md:px-6 py-2 font-headline text-body transition-all duration-300 rounded
               ${currentPage === page.id
-                ? 'bg-primary text-primary-foreground font-semibold shadow-sm'
-                : 'hover:bg-secondary text-foreground'
+                ? 'bg-mint-base text-mint-contrast font-semibold shadow-sm'
+                : 'hover:bg-paper-muted text-ink-headline'
               }
             `}
           >

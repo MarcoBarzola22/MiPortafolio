@@ -1,4 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Playfair Display (Headlines) */
+@import '@fontsource/playfair-display/latin-400.css';
+@import '@fontsource/playfair-display/latin-600.css';
+@import '@fontsource/playfair-display/latin-700.css';
+@import '@fontsource/playfair-display/latin-400-italic.css';
+
+/* Inter (Body & Reading) */
+@import '@fontsource/inter/latin-400.css';
+@import '@fontsource/inter/latin-500.css';
+@import '@fontsource/inter/latin-600.css';
+
+/* JetBrains Mono (Technical & Metrics) */
+@import '@fontsource/jetbrains-mono/latin-400.css';
+@import '@fontsource/jetbrains-mono/latin-500.css';
+
+/* Zero CLS Calibrated Metric Fallbacks */
+@font-face {
+  font-family: 'Playfair-Fallback';
+  src: local('Georgia');
+  ascent-override: 108.2%;
+  descent-override: 25.1%;
+  line-gap-override: 0%;
+  size-adjust: 100.5%;
+}
+
+@font-face {
+  font-family: 'Inter-Fallback';
+  src: local('Arial'), local('system-ui');
+  ascent-override: 96.9%;
+  descent-override: 24.3%;
+  line-gap-override: 0%;
+  size-adjust: 100.8%;
+}
+
+@font-face {
+  font-family: 'JetBrains-Fallback';
+  src: local('Courier New'), local('monospace');
+  ascent-override: 95.0%;
+  descent-override: 25.0%;
+  line-gap-override: 0%;
+  size-adjust: 98.0%;
+}
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +47,25 @@
 
 @layer base {
   :root {
-    /* Paper & Editorial Theme */
+    /* Editorial Semantic Tokens — Morning Edition (Light Paper) */
+    --paper-base: oklch(0.965 0.015 85);
+    --paper-elevated: oklch(0.985 0.010 85);
+    --paper-muted: oklch(0.930 0.020 85);
+
+    --ink-headline: oklch(0.200 0.020 50);
+    --ink-body: oklch(0.300 0.015 50);
+    --ink-muted: oklch(0.520 0.015 50);
+    --ink-subtle: oklch(0.680 0.012 50);
+
+    --mint-base: oklch(0.720 0.160 152);
+    --mint-hover: oklch(0.650 0.170 152);
+    --mint-contrast: oklch(0.150 0.020 50);
+
+    --rule-bold: oklch(0.250 0.020 50);
+    --rule-light: oklch(0.820 0.015 85);
+    --rule-dashed: oklch(0.750 0.015 85);
+
+    /* Legacy Bridge Mappings (preserve compatibility until component refactoring) */
     --background: 43 33% 94%;
     --foreground: 30 10% 15%;
 
@@ -50,6 +109,45 @@
     /* Highlight gradient */
     --highlight-gradient: linear-gradient(120deg, hsl(142 69% 58% / 0.3) 0%, hsl(142 69% 58% / 0.5) 100%);
   }
+
+  .dark {
+    /* Editorial Semantic Tokens — Evening Edition (Dark Newsprint / Tinted Charcoal) */
+    --paper-base: oklch(0.200 0.015 60);
+    --paper-elevated: oklch(0.240 0.015 60);
+    --paper-muted: oklch(0.170 0.015 60);
+
+    --ink-headline: oklch(0.950 0.010 85);
+    --ink-body: oklch(0.850 0.010 85);
+    --ink-muted: oklch(0.680 0.010 85);
+    --ink-subtle: oklch(0.500 0.010 85);
+
+    --mint-base: oklch(0.780 0.150 152);
+    --mint-hover: oklch(0.850 0.150 152);
+    --mint-contrast: oklch(0.150 0.020 50);
+
+    --rule-bold: oklch(0.400 0.015 60);
+    --rule-light: oklch(0.280 0.015 60);
+    --rule-dashed: oklch(0.330 0.015 60);
+
+    /* Legacy Bridge Mappings (Evening Edition) */
+    --background: 30 10% 12%;
+    --foreground: 43 30% 90%;
+    --card: 30 10% 15%;
+    --card-foreground: 43 30% 90%;
+    --primary: 142 69% 58%;
+    --primary-foreground: 30 10% 10%;
+    --secondary: 30 10% 20%;
+    --secondary-foreground: 43 30% 90%;
+    --muted: 30 10% 25%;
+    --muted-foreground: 40 15% 65%;
+    --accent: 142 69% 58%;
+    --accent-foreground: 30 10% 10%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 10% 25%;
+    --input: 30 10% 25%;
+    --ring: 142 69% 58%;
+  }
 }
 
 @layer base {
@@ -65,26 +163,53 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headline);
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga", "kern";
+  }
+
+  p {
+    text-align: left;
+    text-wrap: pretty;
+  }
+
+  time, table, code, pre, .tabular-nums {
+    font-variant-numeric: tabular-nums lining-nums;
   }
 }
 
 @layer components {
-  /* Paper Background with Texture */
+  /* Editorial Column for Periodical Newspaper Columns */
+  .editorial-column {
+    text-align: justify;
+    hyphens: auto;
+    text-justify: inter-word;
+  }
+
+  /* Paper Background with Texture (Dual Morning / Evening Edition) */
   .paper-bg {
     @apply bg-background relative;
     background-image: var(--paper-texture);
     background-blend-mode: multiply;
   }
 
+  .dark .paper-bg {
+    background-blend-mode: overlay;
+  }
+
   .paper-bg::before {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    background: radial-gradient(ellipse at center, transparent 0%, hsl(var(--background)) 100%);
-    opacity: 0.3;
+    background: radial-gradient(ellipse at center, transparent 0%, var(--paper-base) 100%);
+    opacity: 0.25;
   }
 
   /* Newspaper Masthead */

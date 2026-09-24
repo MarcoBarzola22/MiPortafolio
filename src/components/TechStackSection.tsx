@@ -9,39 +9,39 @@ interface TechAdProps {
 }
 
 const TechAd = ({ icon, name, tagline, description, featured }: TechAdProps) => (
-  <div 
+  <article 
     className={`
-      article-card p-4 md:p-6 border-2 border-foreground/80 bg-card
+      article-card p-4 md:p-6 border-2 border-rule-bold bg-paper-elevated
       ${featured ? 'md:col-span-2 md:row-span-2' : ''}
     `}
   >
     <div className="flex items-start gap-4">
-      <div className="p-3 bg-primary/10 text-primary">
+      <div className="p-3 bg-paper-muted text-mint-base border border-rule-light rounded">
         {icon}
       </div>
       <div className="flex-1">
-        <h3 className="font-headline text-xl md:text-2xl font-bold">
+        <h3 className="font-headline text-h3 font-bold text-ink-headline">
           {name}
         </h3>
-        <p className="font-body text-sm italic text-primary mt-1">
+        <p className="font-mono text-mono-sm italic text-mint-base mt-1">
           "{tagline}"
         </p>
       </div>
     </div>
     
-    <div className="mt-4 pt-4 border-t border-dashed border-foreground/30">
-      <p className="font-body text-sm text-muted-foreground leading-relaxed">
+    <div className="mt-4 pt-4 border-t border-dashed border-rule-dashed">
+      <p className="font-body text-caption text-ink-body leading-relaxed">
         {description}
       </p>
     </div>
 
     {/* Vintage Ad Footer */}
     <div className="mt-4 text-center">
-      <span className="inline-block border border-foreground/30 px-3 py-1 text-xs font-body uppercase tracking-widest">
+      <span className="inline-block border border-rule-light px-3 py-1 text-mono-sm font-mono uppercase tracking-widest text-ink-muted">
         ★ Preferred Tool ★
       </span>
     </div>
-  </div>
+  </article>
 );
 
 const TechStackSection = () => {
@@ -101,25 +101,25 @@ const TechStackSection = () => {
     <section className="animate-fade-in-up">
       {/* Section Header */}
       <div className="text-center mb-10">
-        <span className="bg-foreground text-background px-3 py-1 text-xs font-body uppercase tracking-widest">
+        <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
           Technical Section
         </span>
-        <h2 className="font-headline text-4xl md:text-5xl font-bold mt-4">
+        <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
           THE <span className="highlight">TECH</span> STACK
         </h2>
-        <p className="font-headline text-lg italic text-muted-foreground mt-2">
+        <p className="font-headline text-body-lg italic text-ink-muted mt-2">
           Tools of the Trade — An Advertising Supplement
         </p>
       </div>
 
       {/* Divider */}
-      <div className="border-t-2 border-b border-foreground/80 py-1 mb-8">
-        <div className="border-t border-foreground/30"></div>
+      <div className="border-t-2 border-b border-rule-bold py-1 mb-8">
+        <div className="border-t border-rule-light"></div>
       </div>
 
       {/* Tech Grid - Vintage Ad Style */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        {technologies.map((tech, index) => (
+        {technologies.map((tech) => (
           <TechAd
             key={tech.name}
             {...tech}
@@ -129,7 +129,7 @@ const TechStackSection = () => {
 
       {/* Footer Quote */}
       <div className="mt-10 text-center">
-        <p className="font-headline text-lg italic text-muted-foreground">
+        <p className="font-headline text-body-lg italic text-ink-muted">
           "The right tool for every job — expertly wielded."
         </p>
       </div>
