@@ -1,10 +1,31 @@
-import { Mail, Github, Linkedin, MapPin, Phone, FileText } from 'lucide-react';
+import React from 'react';
+import { Mail, Github, Linkedin, MapPin, Globe, FileText, Download } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 
-const ClassifiedsSection = () => {
+const ClassifiedsSection: React.FC = () => {
+  const { language, t } = useTranslation();
+
+  const cvUrl = language === 'en' ? '/cv-en.pdf' : '/cv-es.pdf';
+
   const contactLinks = [
-    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "hello@portfolio.dev", href: "mailto:hello@portfolio.dev" },
-    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "@developer", href: "https://github.com" },
-    { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", value: "/in/developer", href: "https://linkedin.com" },
+    {
+      icon: <Mail className="w-5 h-5" aria-hidden="true" />,
+      label: t('classifieds.emailLabel'),
+      value: t('classifieds.emailValue'),
+      href: 'mailto:marcobarzoladev@gmail.com',
+    },
+    {
+      icon: <Github className="w-5 h-5" aria-hidden="true" />,
+      label: t('classifieds.githubLabel'),
+      value: t('classifieds.githubValue'),
+      href: 'https://github.com/MarcoBarzola22',
+    },
+    {
+      icon: <Linkedin className="w-5 h-5" aria-hidden="true" />,
+      label: t('classifieds.linkedinLabel'),
+      value: t('classifieds.linkedinValue'),
+      href: 'https://www.linkedin.com/in/marco-nicolás-barzola-789a8a341',
+    },
   ];
 
   return (
@@ -12,13 +33,13 @@ const ClassifiedsSection = () => {
       {/* Section Header */}
       <div className="text-center mb-8">
         <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
-          Classifieds
+          {t('classifieds.kicker')}
         </span>
         <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
-          GET IN <span className="highlight">TOUCH</span>
+          {t('classifieds.title')}
         </h2>
         <p className="font-headline text-body-lg italic text-ink-muted mt-2">
-          For Inquiries & Opportunities
+          {t('classifieds.subtitle')}
         </p>
       </div>
 
@@ -29,34 +50,29 @@ const ClassifiedsSection = () => {
 
       {/* Classified Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* About Box */}
+        {/* About Box - Marco Nicolas Barzola Real Background */}
         <div className="md:col-span-2 border-2 border-rule-bold p-6 bg-paper-card">
           <div className="flex items-center gap-2 mb-4">
-            <FileText className="w-5 h-5 text-mint-base" />
+            <FileText className="w-5 h-5 text-mint-base" aria-hidden="true" />
             <span className="font-headline text-h3 font-bold uppercase tracking-wide text-ink-headline">
-              About the Author
+              {t('classifieds.aboutTitle')}
             </span>
           </div>
           
           <p className="font-body text-body-lg leading-relaxed text-ink-body drop-cap">
-            A passionate systems engineer and architect with over five years of experience 
-            building scalable applications and cloud infrastructure. Specializing in React 
-            ecosystems, Node.js backends, and DevOps practices. Currently exploring the 
-            intersection of AI and automation to create smarter developer workflows.
+            {t('classifieds.aboutBio')}
           </p>
 
           <p className="font-body text-body leading-relaxed text-ink-body mt-4">
-            When not architecting systems, you'll find me contributing to open-source projects, 
-            writing technical articles, or exploring new technologies. I believe in clean code, 
-            comprehensive documentation, and the power of automation.
+            {t('classifieds.aboutBioSecond')}
           </p>
 
-          <div className="mt-6 pt-4 border-t border-dashed border-rule-dashed flex items-center gap-4 text-caption text-ink-muted">
+          <div className="mt-6 pt-4 border-t border-dashed border-rule-dashed flex flex-wrap items-center gap-4 text-caption text-ink-muted">
             <span className="flex items-center gap-1 font-mono">
-              <MapPin className="w-4 h-4 text-mint-base" /> San Francisco, CA
+              <MapPin className="w-4 h-4 text-mint-base" aria-hidden="true" /> {t('classifieds.location')}
             </span>
             <span className="flex items-center gap-1 font-mono">
-              <Phone className="w-4 h-4 text-mint-base" /> Available for Remote
+              <Globe className="w-4 h-4 text-mint-base" aria-hidden="true" /> {t('classifieds.availability')}
             </span>
           </div>
         </div>
@@ -66,10 +82,10 @@ const ClassifiedsSection = () => {
           <div>
             <div className="text-center mb-6">
               <span className="font-headline text-h3 font-bold uppercase tracking-wide block mb-2 text-ink-headline">
-                ★ Contact ★
+                {t('classifieds.contactBoxTitle')}
               </span>
               <p className="font-body text-caption text-ink-muted italic">
-                Let's build something together
+                {t('classifieds.contactBoxSubtitle')}
               </p>
             </div>
 
@@ -80,7 +96,7 @@ const ClassifiedsSection = () => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 border border-rule-light bg-paper-muted hover:border-mint-base hover:bg-paper-elevated transition-all duration-300 group rounded"
+                  className="flex items-center gap-3 p-3 border border-rule-light bg-paper-muted hover:border-mint-base hover:bg-paper-elevated transition-all duration-300 group rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-base"
                 >
                   <span className="text-mint-base">{link.icon}</span>
                   <div>
@@ -96,24 +112,28 @@ const ClassifiedsSection = () => {
             </div>
           </div>
 
-          {/* CTA */}
-          <button 
-            type="button"
-            className="w-full mt-6 py-3 bg-mint-base text-mint-contrast font-mono text-mono-sm font-semibold uppercase tracking-wider hover:bg-mint-hover transition-colors shadow-md rounded"
+          {/* CTA - Descargar CV */}
+          <a 
+            href={cvUrl}
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full mt-6 py-3 bg-mint-base text-mint-contrast font-mono text-mono-sm font-semibold uppercase tracking-wider hover:bg-mint-hover transition-colors shadow-md rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-base cursor-pointer flex items-center justify-center gap-2"
           >
-            Download Resume
-          </button>
+            <Download className="w-4 h-4" aria-hidden="true" />
+            <span>{t('classifieds.downloadCv')}</span>
+          </a>
         </div>
       </div>
 
       {/* Footer */}
       <footer className="mt-12 pt-8 border-t border-rule-light text-center">
-        <p className="font-headline text-h3 mb-2 text-ink-headline">THE PORTFOLIO TIMES</p>
+        <p className="font-headline text-h3 mb-2 text-ink-headline">{t('classifieds.footerTitle')}</p>
         <p className="font-body text-caption text-ink-muted">
-          © {new Date().getFullYear()} All Rights Reserved · Crafted with React & TypeScript
+          {t('classifieds.footerCopy', { year: new Date().getFullYear() })}
         </p>
         <p className="font-body text-caption text-ink-subtle mt-2 italic">
-          "Code is poetry, architecture is art"
+          {t('classifieds.footerQuote')}
         </p>
       </footer>
     </section>

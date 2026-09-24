@@ -9,6 +9,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import ClassifiedsSection from '@/components/ClassifiedsSection';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { useSwipeDetection } from '@/hooks/useSwipeDetection';
+import { I18nProvider } from '@/context/I18nContext';
 
 const sections = [
   { id: 0, component: FrontPage },
@@ -73,7 +74,7 @@ const App = () => {
   const CurrentSection = sections[currentPage].component;
 
   return (
-    <>
+    <I18nProvider>
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -133,7 +134,7 @@ const App = () => {
           </div>
         </div>
       </div>
-    </>
+    </I18nProvider>
   );
 };
 

@@ -1,25 +1,36 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import axe from 'axe-core';
 import { ProjectCard } from '@/components/ProjectCard';
 import { caseStudies } from '@/data/caseStudies';
+import { I18nProvider } from '@/context/I18nContext';
+import { es } from '@/data/locales/es';
+
+const renderWithI18n = (ui: React.ReactElement) => {
+  return render(
+    <I18nProvider initialLanguage="es">
+      {ui}
+    </I18nProvider>
+  );
+};
 
 describe('ProjectCard Component', () => {
   const mockProject = caseStudies[0]; // SmartForge
 
   it('renderiza fielmente los datos editoriales y métricas del proyecto', () => {
-    render(<ProjectCard project={mockProject} />);
+    renderWithI18n(<ProjectCard project={mockProject} />);
 
     // Verificar ID editorial y métrica héroe con números tabulares
     expect(screen.getByText(mockProject.editorialId)).toBeInTheDocument();
     expect(screen.getByText(mockProject.heroMetric.value)).toBeInTheDocument();
-    expect(screen.getByText(`(${mockProject.heroMetric.label})`)).toBeInTheDocument();
+    expect(screen.getByText(`(${es[mockProject.heroMetric.label]})`)).toBeInTheDocument();
 
     // Verificar titulares y extracto
-    expect(screen.getByText(mockProject.category)).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.category])).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3, name: mockProject.headline })).toBeInTheDocument();
-    expect(screen.getByText(mockProject.subheadline)).toBeInTheDocument();
-    expect(screen.getByText(mockProject.excerpt)).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.subheadline])).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.excerpt])).toBeInTheDocument();
 
     // Verificar tags del stack
     mockProject.stack.forEach((tech) => {
@@ -28,7 +39,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('incluye clases tipográficas para números tabulares en ID editorial y métricas', () => {
-    const { container } = render(<ProjectCard project={mockProject} />);
+    const { container } = renderWithI18n(<ProjectCard project={mockProject} />);
 
     const editorialIdEl = screen.getByText(mockProject.editorialId);
     expect(editorialIdEl).toHaveClass('tabular-nums');
@@ -41,10 +52,10 @@ describe('ProjectCard Component', () => {
 
   it('ejecuta onSelect al hacer click en el botón accesible expandido', () => {
     const handleSelect = vi.fn();
-    render(<ProjectCard project={mockProject} onSelect={handleSelect} />);
+    renderWithI18n(<ProjectCard project={mockProject} onSelect={handleSelect} />);
 
     const accessibleButton = screen.getByRole('button', {
-      name: `Leer reportaje completo: ${mockProject.headline}`,
+      name: `Abrir caso de estudio: ${mockProject.headline}`,
     });
 
     fireEvent.click(accessibleButton);
@@ -54,10 +65,10 @@ describe('ProjectCard Component', () => {
 
   it('ejecuta onSelect al activar la tarjeta con tecla Enter y tecla Space', () => {
     const handleSelect = vi.fn();
-    render(<ProjectCard project={mockProject} onSelect={handleSelect} />);
+    renderWithI18n(<ProjectCard project={mockProject} onSelect={handleSelect} />);
 
     const accessibleButton = screen.getByRole('button', {
-      name: `Leer reportaje completo: ${mockProject.headline}`,
+      name: `Abrir caso de estudio: ${mockProject.headline}`,
     });
 
     // Probar tecla Enter
@@ -70,9 +81,10 @@ describe('ProjectCard Component', () => {
   });
 
   it('no presenta violaciones de accesibilidad automatizada según axe-core', async () => {
-    const { container } = render(<ProjectCard project={mockProject} />);
+    const { container } = renderWithI18n(<ProjectCard project={mockProject} />);
 
     const results = await axe.run(container);
     expect(results.violations).toEqual([]);
   });
 });
+

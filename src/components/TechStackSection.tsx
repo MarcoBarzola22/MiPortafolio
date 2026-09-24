@@ -1,14 +1,21 @@
-import { Code, Server, Database, Cloud, Workflow, Terminal, Layers, Cpu } from 'lucide-react';
+import React from 'react';
+import { Code, Server, Database, Cloud, Workflow, Terminal, Layers, FileCode } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
+import { TranslationKey } from '@/types/i18n';
 
-interface TechAdProps {
+interface TechItem {
   icon: React.ReactNode;
   name: string;
-  tagline: string;
-  description: string;
+  taglineKey: TranslationKey;
+  descriptionKey: TranslationKey;
   featured?: boolean;
 }
 
-const TechAd = ({ icon, name, tagline, description, featured }: TechAdProps) => (
+interface TechAdProps extends TechItem {
+  t: (key: TranslationKey) => string;
+}
+
+const TechAd: React.FC<TechAdProps> = ({ icon, name, taglineKey, descriptionKey, featured, t }) => (
   <article 
     className={`
       article-card p-4 md:p-6 border-2 border-rule-bold bg-paper-elevated
@@ -24,76 +31,78 @@ const TechAd = ({ icon, name, tagline, description, featured }: TechAdProps) => 
           {name}
         </h3>
         <p className="font-mono text-mono-sm italic text-mint-base mt-1">
-          "{tagline}"
+          "{t(taglineKey)}"
         </p>
       </div>
     </div>
     
     <div className="mt-4 pt-4 border-t border-dashed border-rule-dashed">
       <p className="font-body text-caption text-ink-body leading-relaxed">
-        {description}
+        {t(descriptionKey)}
       </p>
     </div>
 
     {/* Vintage Ad Footer */}
     <div className="mt-4 text-center">
       <span className="inline-block border border-rule-light px-3 py-1 text-mono-sm font-mono uppercase tracking-widest text-ink-muted">
-        ★ Preferred Tool ★
+        {t('stack.badgePreferred')}
       </span>
     </div>
   </article>
 );
 
-const TechStackSection = () => {
-  const technologies = [
+const TechStackSection: React.FC = () => {
+  const { t } = useTranslation();
+
+  const technologies: TechItem[] = [
     {
-      icon: <Code className="w-6 h-6" />,
+      icon: <Code className="w-6 h-6" aria-hidden="true" />,
       name: "React",
-      tagline: "The Framework of Choice",
-      description: "Building dynamic user interfaces with component-based architecture. Expertise in hooks, context, and performance optimization.",
+      taglineKey: "stack.react.tagline",
+      descriptionKey: "stack.react.desc",
       featured: true,
     },
     {
-      icon: <Workflow className="w-6 h-6" />,
+      icon: <Workflow className="w-6 h-6" aria-hidden="true" />,
       name: "n8n",
-      tagline: "Automate the Mundane",
-      description: "Creating sophisticated workflow automations connecting hundreds of services without writing code.",
+      taglineKey: "stack.n8n.tagline",
+      descriptionKey: "stack.n8n.desc",
     },
     {
-      icon: <Server className="w-6 h-6" />,
+      icon: <Server className="w-6 h-6" aria-hidden="true" />,
       name: "Node.js",
-      tagline: "JavaScript Everywhere",
-      description: "Server-side excellence with Express, Fastify, and event-driven architecture.",
+      taglineKey: "stack.node.tagline",
+      descriptionKey: "stack.node.desc",
     },
     {
-      icon: <Layers className="w-6 h-6" />,
+      icon: <Layers className="w-6 h-6" aria-hidden="true" />,
       name: "TypeScript",
-      tagline: "Types Matter",
-      description: "Bringing sanity to JavaScript with strong typing and excellent developer experience.",
+      taglineKey: "stack.ts.tagline",
+      descriptionKey: "stack.ts.desc",
     },
     {
-      icon: <Cloud className="w-6 h-6" />,
+      icon: <Cloud className="w-6 h-6" aria-hidden="true" />,
       name: "AWS",
-      tagline: "Cloud Infrastructure",
-      description: "Lambda, ECS, S3, CloudFront—architecting resilient cloud solutions at scale.",
+      taglineKey: "stack.aws.tagline",
+      descriptionKey: "stack.aws.desc",
     },
     {
-      icon: <Database className="w-6 h-6" />,
+      icon: <Database className="w-6 h-6" aria-hidden="true" />,
       name: "PostgreSQL",
-      tagline: "Data Reliability",
-      description: "Designing efficient schemas, complex queries, and ensuring data integrity.",
+      taglineKey: "stack.postgres.tagline",
+      descriptionKey: "stack.postgres.desc",
     },
     {
-      icon: <Terminal className="w-6 h-6" />,
+      icon: <Terminal className="w-6 h-6" aria-hidden="true" />,
       name: "Docker",
-      tagline: "Containerize Everything",
-      description: "Consistent environments from development to production with container orchestration.",
+      taglineKey: "stack.docker.tagline",
+      descriptionKey: "stack.docker.desc",
     },
     {
-      icon: <Cpu className="w-6 h-6" />,
-      name: "Kubernetes",
-      tagline: "Orchestration Mastery",
-      description: "Managing containerized workloads with auto-scaling and self-healing deployments.",
+      icon: <FileCode className="w-6 h-6" aria-hidden="true" />,
+      name: "Python",
+      taglineKey: "stack.python.tagline",
+      descriptionKey: "stack.python.desc",
     },
   ];
 
@@ -102,13 +111,13 @@ const TechStackSection = () => {
       {/* Section Header */}
       <div className="text-center mb-10">
         <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
-          Technical Section
+          {t('stack.kicker')}
         </span>
         <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
-          THE <span className="highlight">TECH</span> STACK
+          {t('stack.title')}
         </h2>
         <p className="font-headline text-body-lg italic text-ink-muted mt-2">
-          Tools of the Trade — An Advertising Supplement
+          {t('stack.subtitle')}
         </p>
       </div>
 
@@ -123,6 +132,7 @@ const TechStackSection = () => {
           <TechAd
             key={tech.name}
             {...tech}
+            t={t}
           />
         ))}
       </div>
@@ -130,7 +140,7 @@ const TechStackSection = () => {
       {/* Footer Quote */}
       <div className="mt-10 text-center">
         <p className="font-headline text-body-lg italic text-ink-muted">
-          "The right tool for every job — expertly wielded."
+          {t('stack.footerQuote')}
         </p>
       </div>
     </section>

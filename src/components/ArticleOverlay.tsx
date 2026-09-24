@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { X, ArrowLeft, Quote } from 'lucide-react';
 import { CaseStudy } from '@/types/caseStudy';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useScrollLock } from '@/hooks/useScrollLock';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export interface ArticleOverlayProps {
   /** Proyecto seleccionado para lectura profunda */
@@ -30,14 +31,16 @@ const backdropVariants: Variants = {
  *
  * Cumple con:
  * - RF-02, RF-03 (Layout editorial completo y animaciones GPU a 60 FPS)
+ * - RF-04 (Internacionalización completa de todos los bloques narrativos)
  * - RA-01, RA-02, RA-03, RA-04 (Semántica dialog, focus trap, Escape, contraste WCAG AA)
  * - RNF-01, RNF-02, RNF-03 (60 FPS, diseño responsive Grid 12 cols, tokens OKLCH)
- * - Principios 1, 2, 3 y 4 de la Constitución.
+ * - Principios 1, 2, 3, 4 y 5 de la Constitución.
  */
-export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
+export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useTranslation();
 
   // 1. Bloquear el scroll de fondo sin provocar layout shift (CLS = 0)
   useScrollLock(true);
@@ -90,6 +93,14 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
     imageAlt,
   } = project;
 
+  const translatedCategory = t(category);
+  const translatedSubheadline = t(subheadline);
+  const translatedProblemLede = t(problemLede);
+  const translatedConstraints = t(constraints);
+  const translatedHeroLabel = t(heroMetric.label);
+  const translatedHeroDesc = heroMetric.description ? t(heroMetric.description) : undefined;
+  const translatedImageAlt = imageAlt ? t(imageAlt) : headline;
+
   return (
     <motion.div
       variants={backdropVariants}
@@ -118,18 +129,18 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
           <div className="flex items-center gap-3 text-mono-sm font-mono text-ink-muted">
             <span className="font-semibold text-mint-base">{editorialId}</span>
             <span className="text-rule-light">/</span>
-            <span className="uppercase tracking-widest">{category}</span>
+            <span className="uppercase tracking-widest">{translatedCategory}</span>
           </div>
 
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            aria-label="Cerrar reportaje y volver a portada"
+            aria-label={t('projects.closeOverlayAria')}
             className="flex items-center gap-2 px-3 py-1.5 text-mono-sm font-mono font-semibold text-ink-headline bg-paper-muted hover:bg-mint-base hover:text-mint-contrast border border-rule-light transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-base"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">RETURN TO FRONT PAGE</span>
+            <span className="hidden sm:inline uppercase">{t('projects.returnToFrontPage')}</span>
             <span className="sm:hidden">RETURN</span>
             <X className="w-4 h-4 ml-1" />
           </button>
@@ -143,7 +154,7 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
               {/* Bloque 1: Cabecera Editorial */}
               <header className="border-b border-rule-bold pb-6 mb-8">
                 <div className="flex items-center gap-2 text-mono-sm font-mono uppercase tracking-widest text-mint-base font-semibold mb-2">
-                  <span>DISPATCH // CASO DE ESTUDIO</span>
+                  <span>DISPATCH // {t('projects.title')}</span>
                   <span>·</span>
                   <span className="text-ink-muted">{editorialId}</span>
                 </div>
@@ -156,34 +167,34 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
                 </h1>
 
                 <p className="font-headline text-body-lg md:text-h3 italic text-ink-muted mt-3 leading-snug">
-                  {subheadline}
+                  {translatedSubheadline}
                 </p>
               </header>
 
               {/* Bloque 2: Lede / El Problema */}
               <section className="mb-8">
                 <div className="flex items-center gap-2 font-mono text-mono-sm uppercase tracking-wider text-ink-muted font-semibold mb-3 border-b border-rule-light pb-1">
-                  <span className="text-mint-base font-bold">SECTION 01 //</span> EL PROBLEMA
+                  <span className="text-mint-base font-bold">SECTION 01 //</span> {t('projects.sectionProblem')}
                 </div>
                 <p className="text-body-lg font-body text-ink-headline leading-relaxed">
-                  {problemLede}
+                  {translatedProblemLede}
                 </p>
               </section>
 
               {/* Bloque 3: Restricciones Contextuales */}
               <section className="mb-8 p-5 bg-paper-muted/30 border border-rule-light rounded">
                 <div className="flex items-center gap-2 font-mono text-mono-sm uppercase tracking-wider text-ink-muted font-semibold mb-2">
-                  <span className="text-mint-base font-bold">SECTION 02 //</span> RESTRICCIONES & CONTEXTO
+                  <span className="text-mint-base font-bold">SECTION 02 //</span> {t('projects.sectionConstraints')}
                 </div>
                 <p className="font-body text-body text-ink-body leading-relaxed">
-                  {constraints}
+                  {translatedConstraints}
                 </p>
               </section>
 
               {/* Bloque 4: Decisiones Arquitectónicas & Trade-offs (Pull-Quotes) */}
               <section className="mb-8">
                 <div className="flex items-center gap-2 font-mono text-mono-sm uppercase tracking-wider text-ink-muted font-semibold mb-4 border-b border-rule-light pb-1">
-                  <span className="text-mint-base font-bold">SECTION 03 //</span> TRADE-OFFS & ARQUITECTURA
+                  <span className="text-mint-base font-bold">SECTION 03 //</span> {t('projects.sectionTradeoffs')}
                 </div>
 
                 <div className="space-y-6">
@@ -195,11 +206,11 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
                       <div className="flex items-center gap-2 font-mono text-mono-sm uppercase tracking-wider text-ink-muted font-semibold mb-3">
                         <Quote className="w-4 h-4 text-mint-base" />
                         <span className="text-mint-base font-bold">DECISIÓN //</span>
-                        <span>{tradeOff.area}</span>
+                        <span>{t(tradeOff.area)}</span>
                       </div>
 
                       <blockquote className="font-headline text-body-lg md:text-h3 italic text-ink-headline leading-snug">
-                        “{tradeOff.quote}”
+                        “{t(tradeOff.quote)}”
                       </blockquote>
 
                       {tradeOff.rationale && (
@@ -207,7 +218,7 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
                           <span className="font-mono text-mono-sm font-semibold uppercase text-ink-headline mr-1.5">
                             Criterio Técnico:
                           </span>
-                          {tradeOff.rationale}
+                          {t(tradeOff.rationale)}
                         </figcaption>
                       )}
                     </figure>
@@ -222,7 +233,7 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
               <div className="border-2 border-rule-bold overflow-hidden bg-paper-muted">
                 <img
                   src={image}
-                  alt={imageAlt || headline}
+                  alt={translatedImageAlt}
                   className="editorial-image w-full h-48 md:h-56 object-cover"
                 />
                 <div className="p-2 border-t border-rule-light bg-paper-muted text-mono-sm font-mono text-ink-muted">
@@ -239,19 +250,19 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
                   {heroMetric.value}
                 </div>
                 <div className="font-mono text-body font-semibold text-ink-headline mt-2">
-                  {heroMetric.label}
+                  {translatedHeroLabel}
                 </div>
-                {heroMetric.description && (
+                {translatedHeroDesc && (
                   <p className="font-body text-body text-ink-muted mt-1 leading-relaxed">
-                    {heroMetric.description}
+                    {translatedHeroDesc}
                   </p>
                 )}
               </div>
 
-              {/* Pila Tecnológica / Tech Stack */}
+              {/* Pila Tecnológica / Tech Stack (Inmutable) */}
               <div>
                 <div className="font-mono text-mono-sm uppercase tracking-wider text-ink-muted font-semibold mb-3 border-b border-rule-light pb-1">
-                  PILA TECNOLÓGICA // STACK
+                  {t('projects.sectionStack')}
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {stack.map((tech) => (
@@ -268,12 +279,12 @@ export const ArticleOverlay = ({ project, onClose }: ArticleOverlayProps) => {
               {/* Métricas de Impacto / Cuadro de Datos Tabulares */}
               <div className="border border-rule-bold">
                 <div className="bg-ink-headline text-paper-base px-3 py-2 font-mono text-mono-sm uppercase tracking-wider font-semibold">
-                  MÉTRICAS DE IMPACTO // AUDITORÍA
+                  {t('projects.sectionMetrics')}
                 </div>
                 <dl className="divide-y divide-rule-light bg-paper-muted/20">
                   {impactMetrics.map((metric, idx) => (
                     <div key={idx} className="flex justify-between items-center px-4 py-2.5">
-                      <dt className="font-body text-body text-ink-muted">{metric.label}</dt>
+                      <dt className="font-body text-body text-ink-muted">{t(metric.label)}</dt>
                       <dd className="font-mono tabular-nums lining-nums font-semibold text-ink-headline text-right ml-4">
                         {metric.value}
                       </dd>

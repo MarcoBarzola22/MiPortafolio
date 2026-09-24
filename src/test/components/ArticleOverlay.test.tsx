@@ -1,14 +1,25 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axe from 'axe-core';
 import { ArticleOverlay } from '@/components/ArticleOverlay';
 import { caseStudies } from '@/data/caseStudies';
+import { I18nProvider } from '@/context/I18nContext';
+import { es } from '@/data/locales/es';
+
+const renderWithI18n = (ui: React.ReactElement) => {
+  return render(
+    <I18nProvider initialLanguage="es">
+      {ui}
+    </I18nProvider>
+  );
+};
 
 describe('ArticleOverlay Component', () => {
   const mockProject = caseStudies[0]; // SmartForge
 
   it('renderiza con landmarks semánticos ARIA (role=dialog, aria-modal, aria-labelledby)', () => {
-    render(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
@@ -20,23 +31,23 @@ describe('ArticleOverlay Component', () => {
   });
 
   it('renderiza íntegramente los 6 bloques editoriales del reportaje', () => {
-    render(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
 
     // 1. Cabecera
     expect(screen.getByRole('heading', { level: 1, name: mockProject.headline })).toBeInTheDocument();
-    expect(screen.getByText(mockProject.subheadline)).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.subheadline])).toBeInTheDocument();
 
     // 2. Lede / Problema
-    expect(screen.getByText(mockProject.problemLede)).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.problemLede])).toBeInTheDocument();
 
     // 3. Restricciones
-    expect(screen.getByText(mockProject.constraints)).toBeInTheDocument();
+    expect(screen.getByText(es[mockProject.constraints])).toBeInTheDocument();
 
     // 4. Trade-offs (Pull-quotes)
     mockProject.tradeOffs.forEach((tradeOff) => {
-      expect(screen.getByText(`“${tradeOff.quote}”`)).toBeInTheDocument();
+      expect(screen.getByText(`“${es[tradeOff.quote]}”`)).toBeInTheDocument();
       if (tradeOff.rationale) {
-        expect(screen.getByText(tradeOff.rationale)).toBeInTheDocument();
+        expect(screen.getByText(es[tradeOff.rationale])).toBeInTheDocument();
       }
     });
 
@@ -47,17 +58,17 @@ describe('ArticleOverlay Component', () => {
 
     // 6. Métricas de Impacto con números tabulares
     mockProject.impactMetrics.forEach((metric) => {
-      expect(screen.getByText(metric.label)).toBeInTheDocument();
+      expect(screen.getByText(es[metric.label])).toBeInTheDocument();
       expect(screen.getByText(metric.value)).toBeInTheDocument();
     });
   });
 
   it('invoca onClose al hacer click en el botón de retorno a portada', () => {
     const handleClose = vi.fn();
-    render(<ArticleOverlay project={mockProject} onClose={handleClose} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={handleClose} />);
 
     const closeButton = screen.getByRole('button', {
-      name: 'Cerrar reportaje y volver a portada',
+      name: es['projects.closeOverlayAria'],
     });
 
     fireEvent.click(closeButton);
@@ -66,17 +77,17 @@ describe('ArticleOverlay Component', () => {
 
   it('invoca onClose al presionar la tecla Escape', () => {
     const handleClose = vi.fn();
-    render(<ArticleOverlay project={mockProject} onClose={handleClose} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={handleClose} />);
 
     fireEvent.keyDown(window, { key: 'Escape', code: 'Escape' });
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
   it('enfoca inicialmente el botón de cierre al montarse', async () => {
-    render(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
 
     const closeButton = screen.getByRole('button', {
-      name: 'Cerrar reportaje y volver a portada',
+      name: es['projects.closeOverlayAria'],
     });
 
     await waitFor(() => {
@@ -85,10 +96,10 @@ describe('ArticleOverlay Component', () => {
   });
 
   it('atrapa y cicla el foco del teclado dentro del overlay (Focus Trap)', async () => {
-    render(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
+    renderWithI18n(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
 
     const closeButton = screen.getByRole('button', {
-      name: 'Cerrar reportaje y volver a portada',
+      name: es['projects.closeOverlayAria'],
     });
 
     await waitFor(() => {
@@ -106,7 +117,7 @@ describe('ArticleOverlay Component', () => {
   });
 
   it('supera la auditoría de accesibilidad de axe-core sin violaciones', async () => {
-    const { container } = render(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
+    const { container } = renderWithI18n(<ArticleOverlay project={mockProject} onClose={vi.fn()} />);
 
     const results = await axe.run(container);
     expect(results.violations).toEqual([]);

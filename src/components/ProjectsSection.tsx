@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { caseStudies } from '@/data/caseStudies';
 import { CaseStudy } from '@/types/caseStudy';
+import { useTranslation } from '@/hooks/useTranslation';
 import { ProjectCard } from './ProjectCard';
 import { ArticleOverlay } from './ArticleOverlay';
 
@@ -11,27 +12,29 @@ import { ArticleOverlay } from './ArticleOverlay';
  *
  * Cumple con:
  * - RF-01 (Tarjetas con datos reales)
+ * - RF-04 (Internacionalización completa de encabezados y contenidos)
  * - RF-05 (Gestión de estado local sin router)
  * - RA-01 (Aislamiento de fondo con inert durante el modal)
  * - Principios 1, 2, 4 y 5 de la Constitución.
  */
 const ProjectsSection = () => {
+  const { t } = useTranslation();
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
 
   return (
     <section className="animate-fade-in-up">
       {/* Contenedor principal de portada, marcado como inerte cuando el modal está abierto */}
       <div inert={selectedProject !== null ? true : undefined}>
-        {/* Encabezado Editorial de Sección */}
+        {/* Encabezado Editorial de Sección Internacionalizado */}
         <div className="text-center mb-8">
           <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
-            Projects Section
+            {t('projects.kicker')}
           </span>
           <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
-            THE <span className="highlight">DAILY</span> REPORTS
+            {t('projects.title')}
           </h2>
           <p className="font-headline text-body-lg italic text-ink-muted mt-2">
-            Featured Works & Architectural Case Studies
+            {t('projects.subtitle')}
           </p>
         </div>
 

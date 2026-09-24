@@ -1,5 +1,7 @@
+import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import { CaseStudy } from '@/types/caseStudy';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export interface ProjectCardProps {
   /** Objeto de datos del caso de estudio */
@@ -12,13 +14,15 @@ export interface ProjectCardProps {
 
 /**
  * Componente de tarjeta de portada con diseño editorial estricto y patrón accesible WCAG AA.
- * Cumple con RF-01, RA-05, RNF-03 y Principios 2 y 4 de la Constitución.
+ * Cumple con RF-01, RF-04, RA-05, RNF-03 y Principios 2, 4 y 5 de la Constitución.
  */
-export const ProjectCard = ({
+export const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onSelect,
   isSelected = false,
-}: ProjectCardProps) => {
+}) => {
+  const { t } = useTranslation();
+
   const {
     editorialId,
     heroMetric,
@@ -42,6 +46,13 @@ export const ProjectCard = ({
     }
   };
 
+  const translatedCategory = t(category);
+  const translatedSubheadline = t(subheadline);
+  const translatedExcerpt = t(excerpt);
+  const translatedHeroLabel = t(heroMetric.label);
+  const translatedImageAlt = imageAlt ? t(imageAlt) : headline;
+  const accessibleActionLabel = t('projects.openCaseStudyAria', { name: headline });
+
   return (
     <article
       className={`article-card relative w-full h-full flex flex-col bg-paper-card border-2 border-rule-bold overflow-hidden group transition-all duration-300 hover:shadow-lg hover:border-mint-base ${
@@ -53,10 +64,10 @@ export const ProjectCard = ({
         type="button"
         onClick={handleSelect}
         onKeyDown={handleKeyDown}
-        aria-label={`Leer reportaje completo: ${headline}`}
+        aria-label={accessibleActionLabel}
         className="absolute inset-0 z-10 w-full h-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-base focus-visible:ring-offset-2 focus-visible:ring-offset-paper-base"
       >
-        <span className="sr-only">Leer reportaje completo: {headline}</span>
+        <span className="sr-only">{accessibleActionLabel}</span>
       </button>
 
       {/* Barra superior de metadatos editoriales tipo periódico */}
@@ -67,7 +78,7 @@ export const ProjectCard = ({
         <div className="flex items-center gap-1.5 font-mono tabular-nums font-bold text-mint-base">
           <span>{heroMetric.value}</span>
           <span className="text-ink-muted font-normal text-mono-sm">
-            ({heroMetric.label})
+            ({translatedHeroLabel})
           </span>
         </div>
       </div>
@@ -76,7 +87,7 @@ export const ProjectCard = ({
       <div className="relative h-48 md:h-56 overflow-hidden bg-paper-muted">
         <img
           src={image}
-          alt={imageAlt || headline}
+          alt={translatedImageAlt}
           className="editorial-image w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-headline/60 via-ink-headline/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -87,15 +98,15 @@ export const ProjectCard = ({
           className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         >
           <span className="bg-mint-base text-mint-contrast px-4 py-2 font-mono text-mono-sm font-semibold flex items-center gap-2 shadow-lg">
-            Read Full Story <ExternalLink className="w-4 h-4" />
+            {t('projects.readFullStory')} <ExternalLink className="w-4 h-4" />
           </span>
         </div>
       </div>
 
-      {/* Contenido editorial */}
+      {/* Contenido editorial internacionalizado */}
       <div className="p-5 md:p-6 article-highlight transition-colors duration-300 flex flex-col flex-1">
         <span className="text-mono-sm font-mono uppercase tracking-widest text-mint-base font-semibold">
-          {category}
+          {translatedCategory}
         </span>
 
         <h3 className="font-headline text-h3 font-bold mt-2 leading-tight text-ink-headline">
@@ -103,14 +114,14 @@ export const ProjectCard = ({
         </h3>
 
         <p className="font-headline text-body italic text-ink-muted mt-2">
-          {subheadline}
+          {translatedSubheadline}
         </p>
 
         <p className="font-body text-body text-ink-body mt-4 leading-relaxed flex-1">
-          {excerpt}
+          {translatedExcerpt}
         </p>
 
-        {/* Tags del Stack con tokens semánticos */}
+        {/* Tags del Stack inmutables con tokens semánticos */}
         <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-dashed border-rule-dashed">
           {stack.map((tech) => (
             <span
