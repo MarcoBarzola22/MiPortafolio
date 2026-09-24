@@ -88,26 +88,31 @@ const App = () => {
             onPageChange={handlePageChange} 
           />
 
-          {/* Page Content with Flip Animation & Boundary Bounce */}
-          <main 
-            onAnimationEnd={handleAnimationEnd}
-            className={`
-              scroll-pt-20 transition-all duration-300 transform-gpu
-              ${animationPhase === 'flipping-out' 
-                ? 'animate-page-flip-out opacity-0' 
-                : animationPhase === 'flipping-in'
-                ? 'animate-page-flip-in opacity-100'
-                : animationPhase === 'bouncing'
-                ? direction === 'prev'
-                  ? 'animate-bounce-edge-prev'
-                  : 'animate-bounce-edge-next'
-                : 'opacity-100'
-              }
-            `}
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            <CurrentSection />
-          </main>
+          {/* 3D Viewport Container (perspective: 1200px) */}
+          <div className="newspaper-viewport w-full relative">
+            <main 
+              onAnimationEnd={handleAnimationEnd}
+              className={`
+                newspaper-sheet scroll-pt-20 transform-gpu
+                ${animationPhase === 'flipping-out' 
+                  ? direction === 'prev'
+                    ? 'animate-page-flip-out-prev'
+                    : 'animate-page-flip-out-next'
+                  : animationPhase === 'flipping-in'
+                  ? direction === 'prev'
+                    ? 'animate-page-flip-in-prev'
+                    : 'animate-page-flip-in-next'
+                  : animationPhase === 'bouncing'
+                  ? direction === 'prev'
+                    ? 'animate-bounce-edge-prev'
+                    : 'animate-bounce-edge-next'
+                  : 'opacity-100'
+                }
+              `}
+            >
+              <CurrentSection />
+            </main>
+          </div>
 
           {/* Page Indicator */}
           <div className="flex justify-center gap-2 mt-12 pt-8 border-t border-foreground/20">
