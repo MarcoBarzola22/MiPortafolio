@@ -1,6 +1,7 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import axe from 'axe-core';
 import { I18nProvider } from '@/context/I18nContext';
 import ClassifiedsSection from '@/components/ClassifiedsSection';
 
@@ -37,6 +38,10 @@ describe('ClassifiedsSection Component (Real Data & Identity)', () => {
     expect(screen.getByText(/Villa Mercedes, San Luis, Argentina/i)).toBeInTheDocument();
     expect(screen.getByText(/UNVIME/i)).toBeInTheDocument();
 
+    // Formulario de contacto activo
+    expect(screen.getByLabelText(/Nombre Completo/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Transmitir Despacho/i })).toBeInTheDocument();
+
     // Erradicación de datos ficticios
     expect(screen.queryByText(/hello@portfolio\.dev/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/San Francisco, CA/i)).not.toBeInTheDocument();
@@ -69,5 +74,20 @@ describe('ClassifiedsSection Component (Real Data & Identity)', () => {
     expect(cvLinkEn).toHaveAttribute('href', '/cv-en.pdf');
     expect(cvLinkEn).toHaveAttribute('download');
     expect(screen.getByText(/CLASSIFIEDS/i)).toBeInTheDocument();
+
+    // Formulario en inglés
+    expect(screen.getByLabelText(/Full Name/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Transmit Dispatch/i })).toBeInTheDocument();
+  });
+
+  it('supera la auditoría de accesibilidad WCAG 2.1 AA (axe-core)', async () => {
+    const { container } = render(
+      <I18nProvider initialLanguage="es">
+        <ClassifiedsSection />
+      </I18nProvider>
+    );
+
+    const results = await axe.run(container);
+    expect(results.violations).toEqual([]);
   });
 });

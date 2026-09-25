@@ -162,6 +162,23 @@ export const en: TranslationDictionary = {
   'classifieds.footerCopy': '© {year} Marco Nicolás Barzola · Crafted with React, TypeScript and Editorial Aesthetics',
   'classifieds.footerQuote': '"Clean code is structured poetry; software architecture is functional art."',
 
+  // Contact Form (Classifieds)
+  'contact.title': 'Editorial Dispatch // Contact Form',
+  'contact.subtitle': 'Send a direct message or telegram to my professional desk',
+  'contact.nameLabel': 'Full Name',
+  'contact.namePlaceholder': 'Your name or organization...',
+  'contact.emailLabel': 'Email Address',
+  'contact.emailPlaceholder': 'your-email@example.com',
+  'contact.messageLabel': 'Message or Proposal',
+  'contact.messagePlaceholder': 'Describe your project proposal, technical inquiry, or job opportunity (minimum 10 characters)...',
+  'contact.sendButton': 'Transmit Dispatch',
+  'contact.sending': 'Transmitting Message...',
+  'contact.successTitle': 'Dispatch Received!',
+  'contact.successDesc': 'Your message has been successfully transmitted. I will be in touch shortly.',
+  'contact.errorNameRequired': 'Name is required.',
+  'contact.errorEmailInvalid': 'Please enter a valid email address.',
+  'contact.errorMessageMin': 'Message must contain at least 10 characters.',
+
   // Document Title
   'doc.title': 'Portafolio Marco Barzola',
 };

@@ -160,6 +160,23 @@ export const es = {
   'classifieds.footerCopy': '© {year} Marco Nicolás Barzola · Construido con React, TypeScript y Estética Editorial',
   'classifieds.footerQuote': '"El código limpio es poesía estructurada; la arquitectura es arte funcional."',
 
+  // Formulario de Contacto (Clasificados)
+  'contact.title': 'Telegrama Editorial // Formulario de Contacto',
+  'contact.subtitle': 'Envía un mensaje directo a mi casilla profesional',
+  'contact.nameLabel': 'Nombre Completo',
+  'contact.namePlaceholder': 'Tu nombre o empresa...',
+  'contact.emailLabel': 'Correo Electrónico',
+  'contact.emailPlaceholder': 'tu-correo@ejemplo.com',
+  'contact.messageLabel': 'Mensaje o Propuesta',
+  'contact.messagePlaceholder': 'Describe tu propuesta de proyecto, consulta técnica u oportunidad laboral (mínimo 10 caracteres)...',
+  'contact.sendButton': 'Transmitir Despacho',
+  'contact.sending': 'Enviando Mensaje...',
+  'contact.successTitle': '¡Despacho Recibido!',
+  'contact.successDesc': 'Tu mensaje ha sido transmitido con éxito. Me pondré en contacto a la brevedad.',
+  'contact.errorNameRequired': 'El nombre es obligatorio.',
+  'contact.errorEmailInvalid': 'Por favor ingresa un correo electrónico con formato válido.',
+  'contact.errorMessageMin': 'El mensaje debe tener al menos 10 caracteres.',
+
   // Document Title
   'doc.title': 'Portafolio Marco Barzola',
 } as const;

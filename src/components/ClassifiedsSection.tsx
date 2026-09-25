@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Github, Linkedin, MapPin, Globe, FileText, Download } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import ContactForm from '@/components/ContactForm';
 
 const ClassifiedsSection: React.FC = () => {
   const { language, t } = useTranslation();
@@ -124,6 +125,11 @@ const ClassifiedsSection: React.FC = () => {
             <span>{t('classifieds.downloadCv')}</span>
           </a>
         </div>
+      </div>
+
+      {/* Formulario de Contacto Editorial */}
+      <div className="mt-8">
+        <ContactForm />
       </div>
 
       {/* Footer */}
