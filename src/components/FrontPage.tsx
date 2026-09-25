@@ -6,12 +6,12 @@ const FrontPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="animate-fade-in-up">
+    <section className="animate-fade-in-up w-full max-w-full">
       {/* Main Headline Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 sm:mb-12 w-full">
         {/* Lead Story - Dual-Layer GPU Portrait (Principle 3 & QA #8-#11) */}
-        <div className="lg:col-span-5 column-divider">
-          <div className="portrait-container portrait-fallback vintage-border p-1 shadow-sm">
+        <div className="lg:col-span-5 column-divider w-full">
+          <div className="portrait-container portrait-fallback vintage-border p-1 shadow-sm w-full max-w-full mx-auto max-w-md lg:max-w-none">
             {/* Capa 1: Base monocroma estática (tinta de periódico - sin animación) */}
             <img
               src={profilePhoto}
@@ -20,7 +20,7 @@ const FrontPage: React.FC = () => {
               fetchPriority="high"
               width={400}
               height={500}
-              className="portrait-layer-base"
+              className="portrait-layer-base w-full h-full object-cover max-w-full"
             />
             {/* Capa 2: Superposición con calidez vintage analógica (revelado exclusivamente por opacity) */}
             <img
@@ -31,7 +31,7 @@ const FrontPage: React.FC = () => {
               fetchPriority="high"
               width={400}
               height={500}
-              className="portrait-layer-warmth"
+              className="portrait-layer-warmth w-full h-full object-cover max-w-full"
             />
           </div>
           <p className="text-caption text-ink-muted mt-2 font-body italic text-center">
@@ -40,18 +40,18 @@ const FrontPage: React.FC = () => {
         </div>
 
         {/* Lead Story - Real Identity Content (Marco Nicolas Barzola) */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 w-full">
           <div className="mb-4">
             <span className="bg-ink-headline text-paper-base px-2 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
               {t('frontpage.badge')}
             </span>
           </div>
           
-          <h2 className="font-headline text-h1 font-bold mb-6 text-ink-headline tracking-tight">
+          <h2 className="font-headline text-2xl sm:text-3xl md:text-h1 font-bold mb-4 sm:mb-6 text-ink-headline tracking-tight break-words">
             {t('frontpage.headline')}
           </h2>
           
-          <p className="font-headline text-h3 italic text-ink-muted mb-6 border-l-4 border-mint-base pl-4">
+          <p className="font-headline text-lg sm:text-xl md:text-h3 italic text-ink-muted mb-4 sm:mb-6 border-l-4 border-mint-base pl-3 sm:pl-4">
             {t('frontpage.subheadline')}
           </p>
 

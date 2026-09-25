@@ -29,16 +29,16 @@ const ClassifiedsSection: React.FC = () => {
   ];
 
   return (
-    <section className="animate-fade-in-up">
+    <section className="animate-fade-in-up w-full max-w-full">
       {/* Section Header */}
       <div className="text-center mb-8">
         <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
           {t('classifieds.kicker')}
         </span>
-        <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
+        <h2 className="font-headline text-2xl sm:text-3xl md:text-h2 font-bold mt-4 text-ink-headline break-words">
           {t('classifieds.title')}
         </h2>
-        <p className="font-headline text-body-lg italic text-ink-muted mt-2">
+        <p className="font-headline text-sm sm:text-base md:text-body-lg italic text-ink-muted mt-2">
           {t('classifieds.subtitle')}
         </p>
       </div>
@@ -49,7 +49,7 @@ const ClassifiedsSection: React.FC = () => {
       </div>
 
       {/* Classified Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {/* About Box - Marco Nicolas Barzola Real Background */}
         <div className="md:col-span-2 border-2 border-rule-bold p-6 bg-paper-card">
           <div className="flex items-center gap-2 mb-4">

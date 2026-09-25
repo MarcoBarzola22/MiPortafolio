@@ -263,14 +263,16 @@
     filter: grayscale(0%) contrast(100%);
   }
 
-  /* Column Dividers */
+  /* Column Dividers - Solo en layouts de múltiples columnas (desktop) */
   .column-divider {
     @apply relative;
   }
 
-  .column-divider::after {
-    content: '';
-    @apply absolute top-0 right-0 w-px h-full bg-border;
+  @media (min-width: 1024px) {
+    .column-divider::after {
+      content: '';
+      @apply absolute top-0 right-0 w-px h-full bg-border;
+    }
   }
 
   /* Halftone Effect */

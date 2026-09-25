@@ -107,7 +107,7 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
       initial="initial"
       animate="animate"
       exit="exit"
-      className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-6 lg:p-10 overflow-y-auto bg-ink-headline/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-0 md:p-6 lg:p-10 overflow-y-auto bg-ink-headline/60 backdrop-blur-sm"
       onClick={(e) => {
         // Cerrar al clickear el backdrop exterior
         if (e.target === e.currentTarget) {

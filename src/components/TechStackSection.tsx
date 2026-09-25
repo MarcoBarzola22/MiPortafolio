@@ -107,16 +107,16 @@ const TechStackSection: React.FC = () => {
   ];
 
   return (
-    <section className="animate-fade-in-up">
+    <section className="animate-fade-in-up w-full max-w-full">
       {/* Section Header */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-8 sm:mb-10">
         <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
           {t('stack.kicker')}
         </span>
-        <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
+        <h2 className="font-headline text-2xl sm:text-3xl md:text-h2 font-bold mt-4 text-ink-headline break-words">
           {t('stack.title')}
         </h2>
-        <p className="font-headline text-body-lg italic text-ink-muted mt-2">
+        <p className="font-headline text-sm sm:text-base md:text-body-lg italic text-ink-muted mt-2">
           {t('stack.subtitle')}
         </p>
       </div>
@@ -127,7 +127,7 @@ const TechStackSection: React.FC = () => {
       </div>
 
       {/* Tech Grid - Vintage Ad Style */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
         {technologies.map((tech) => (
           <TechAd
             key={tech.name}

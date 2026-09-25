@@ -21,20 +21,20 @@ const NewspaperMasthead: React.FC = () => {
   return (
     <header className="w-full border-b-2 border-rule-bold pb-4 mb-4">
       {/* Top Bar with Editorial Metadata, Language Selector and Theme Toggle */}
-      <div className="w-full flex justify-between items-center gap-4 text-xs font-body uppercase tracking-widest text-ink-muted mb-4 border-b border-rule-light/50 pb-2">
-        {/* Left: Location & Date */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2.5 sm:gap-3 text-xs font-body uppercase tracking-widest text-ink-muted mb-4 border-b border-rule-light/50 pb-3">
+        {/* Left: Location & Date (Fecha oculta en móviles pequeños para evitar amontonamiento) */}
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-center md:text-left">
           <span>{t('masthead.location')}</span>
-          <span className="hidden sm:inline border-l border-rule-light pl-3">{formattedDate}</span>
+          <span className="hidden sm:inline border-l border-rule-light pl-2.5 text-ink-subtle">{formattedDate}</span>
         </div>
 
         {/* Center: Edition subtitle ("special engineering edition") */}
-        <div className="hidden md:block text-center text-mono-sm font-mono lowercase tracking-normal flex-1 px-2">
+        <div className="text-center text-mono-sm font-mono lowercase tracking-normal text-ink-subtle px-2">
           {t('masthead.edition')}
         </div>
 
         {/* Right: Language Selector and Theme Toggle */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <div className="flex items-center justify-center md:justify-end gap-3 flex-shrink-0">
           {/* Accessible Language Selector (WCAG 2.1 AA - QA #5, Plan §4.1) */}
           <div 
             className="inline-flex items-center p-0.5 rounded border border-rule-light bg-paper-elevated text-ink-headline"
@@ -97,10 +97,10 @@ const NewspaperMasthead: React.FC = () => {
 
       {/* Masthead Title and Editorial Slogan */}
       <div className="text-center mb-6">
-        <h1 className="masthead text-display font-bold tracking-tight leading-none text-ink-headline">
+        <h1 className="masthead text-3xl sm:text-5xl md:text-display font-bold tracking-tight leading-none text-ink-headline break-words px-2">
           THE <span className="highlight-underline">BARZOLA</span> TIMES
         </h1>
-        <p className="font-body text-sm md:text-base text-ink-muted mt-2 italic">
+        <p className="font-body text-xs sm:text-sm md:text-base text-ink-muted mt-2 italic px-2">
           "{t('masthead.tagline')}"
         </p>
       </div>

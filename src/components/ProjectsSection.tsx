@@ -22,18 +22,18 @@ const ProjectsSection = () => {
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
 
   return (
-    <section className="animate-fade-in-up">
+    <section className="animate-fade-in-up w-full max-w-full">
       {/* Contenedor principal de portada, marcado como inerte cuando el modal está abierto */}
-      <div inert={selectedProject !== null ? true : undefined}>
+      <div inert={selectedProject !== null ? true : undefined} className="w-full">
         {/* Encabezado Editorial de Sección Internacionalizado */}
         <div className="text-center mb-8">
           <span className="bg-ink-headline text-paper-base px-3 py-1 text-mono-sm font-mono uppercase tracking-widest font-semibold">
             {t('projects.kicker')}
           </span>
-          <h2 className="font-headline text-h2 font-bold mt-4 text-ink-headline">
+          <h2 className="font-headline text-2xl sm:text-3xl md:text-h2 font-bold mt-4 text-ink-headline break-words">
             {t('projects.title')}
           </h2>
-          <p className="font-headline text-body-lg italic text-ink-muted mt-2">
+          <p className="font-headline text-sm sm:text-base md:text-body-lg italic text-ink-muted mt-2">
             {t('projects.subtitle')}
           </p>
         </div>
@@ -44,7 +44,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Grid Adaptativo de Tarjetas de Casos de Estudio */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full">
           {caseStudies.map((project) => (
             <ProjectCard
               key={project.id}
