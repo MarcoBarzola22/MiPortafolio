@@ -13,7 +13,7 @@ Este es el repositorio de mi portafolio personal, diseñado con una estética de
 
 ## 🛠️ Tecnologías Utilizadas
 
-*   **Lenguajes:** Python, JavaScript/TypeScript
+*   **Lenguajes:** JavaScript/TypeScript
 *   **Frontend:** React.js, Tailwind CSS 
 *   **Herramientas:** Git, GitHub
 
