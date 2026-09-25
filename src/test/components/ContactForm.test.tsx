@@ -96,9 +96,16 @@ describe('ContactForm Component (Zod validation & a11y)', () => {
 
     fireEvent.click(submitBtn);
 
-    await waitFor(() => {
-      expect(screen.getByText(/¡Despacho Recibido!/i)).toBeInTheDocument();
-    });
+    // Estado de carga inmediato: botón deshabilitado con texto de transmisión
+    expect(submitBtn).toBeDisabled();
+    expect(screen.getByText(/Transmitiendo\.\.\./i)).toBeInTheDocument();
+
+    await waitFor(
+      () => {
+        expect(screen.getByText(/¡Despacho Recibido!/i)).toBeInTheDocument();
+      },
+      { timeout: 3500 }
+    );
 
     expect(nameInput.value).toBe('');
     expect(emailInput.value).toBe('');

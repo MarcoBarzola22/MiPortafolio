@@ -16,7 +16,11 @@ interface FormErrors {
   message?: string;
 }
 
-export const ContactForm: React.FC = () => {
+interface ContactFormProps {
+  simulationDelay?: number;
+}
+
+export const ContactForm: React.FC<ContactFormProps> = ({ simulationDelay = 1500 }) => {
   const { t } = useTranslation();
 
   const [formData, setFormData] = useState<FormData>({
@@ -87,13 +91,14 @@ export const ContactForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Simular transmisión asíncrona segura del despacho
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      // Simular transmisión asíncrona segura del despacho telegrafiado (1.5 segundos)
+      await new Promise((resolve) => setTimeout(resolve, simulationDelay));
 
       setIsSuccess(true);
       setFormData({ name: '', email: '', message: '' });
       toast.success(t('contact.successTitle'), {
         description: t('contact.successDesc'),
+        className: 'font-mono border-2 border-rule-bold bg-paper-card text-ink-headline',
       });
     } catch {
       toast.error('Error al enviar el despacho. Por favor intenta nuevamente.');

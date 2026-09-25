@@ -172,7 +172,7 @@ export const en: TranslationDictionary = {
   'contact.messageLabel': 'Message or Proposal',
   'contact.messagePlaceholder': 'Describe your project proposal, technical inquiry, or job opportunity (minimum 10 characters)...',
   'contact.sendButton': 'Transmit Dispatch',
-  'contact.sending': 'Transmitting Message...',
+  'contact.sending': 'Transmitting...',
   'contact.successTitle': 'Dispatch Received!',
   'contact.successDesc': 'Your message has been successfully transmitted. I will be in touch shortly.',
   'contact.errorNameRequired': 'Name is required.',

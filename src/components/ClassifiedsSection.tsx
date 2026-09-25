@@ -147,3 +147,4 @@ const ClassifiedsSection: React.FC = () => {
 };
 
 export default ClassifiedsSection;
+export { ContactForm };

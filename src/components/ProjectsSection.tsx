@@ -60,6 +60,7 @@ const ProjectsSection = () => {
       <AnimatePresence>
         {selectedProject && (
           <ArticleOverlay
+            key={selectedProject.id}
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
           />

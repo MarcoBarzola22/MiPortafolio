@@ -79,10 +79,11 @@ const App = () => {
         position="bottom-right"
         toastOptions={{
           classNames: {
-            toast: "bg-background text-foreground border border-border shadow-lg",
-            description: "text-muted-foreground",
-            actionButton: "bg-primary text-primary-foreground",
-            cancelButton: "bg-muted text-muted-foreground",
+            toast: "bg-paper-elevated text-ink-headline border-2 border-rule-bold shadow-lg font-mono rounded",
+            title: "font-headline font-bold text-ink-headline text-body",
+            description: "font-body text-ink-muted text-xs mt-1",
+            actionButton: "bg-mint-base text-mint-contrast font-mono text-mono-sm uppercase tracking-wider",
+            cancelButton: "bg-paper-muted text-ink-muted font-mono text-mono-sm",
           },
         }}
       />

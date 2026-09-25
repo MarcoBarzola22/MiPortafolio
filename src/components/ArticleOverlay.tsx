@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { X, ArrowLeft, Quote } from 'lucide-react';
 import { CaseStudy } from '@/types/caseStudy';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
-import { useScrollLock } from '@/hooks/useScrollLock';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export interface ArticleOverlayProps {
@@ -42,8 +42,29 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
   const shouldReduceMotion = useReducedMotion();
   const { t } = useTranslation();
 
-  // 1. Bloquear el scroll de fondo sin provocar layout shift (CLS = 0)
-  useScrollLock(true);
+  // 1. Compensar dinámicamente la barra de scroll en document.body para evitar saltos de maquetación (CLS = 0)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const documentElement = document.documentElement;
+    const body = document.body;
+
+    // Medir ancho exacto del scrollbar del viewport antes de fijar overflow
+    const scrollbarWidth = window.innerWidth - documentElement.clientWidth;
+    const originalBodyOverflow = body.style.overflow;
+    const originalBodyPaddingRight = body.style.paddingRight;
+
+    if (scrollbarWidth > 0) {
+      const computedPadding = parseFloat(window.getComputedStyle(body).paddingRight) || 0;
+      body.style.paddingRight = `${computedPadding + scrollbarWidth}px`;
+    }
+    body.style.overflow = 'hidden';
+
+    return () => {
+      body.style.overflow = originalBodyOverflow;
+      body.style.paddingRight = originalBodyPaddingRight;
+    };
+  }, []);
 
   // 2. Atrapar y ciclar foco del teclado con cierre accesible por Escape
   useFocusTrap(containerRef, {
@@ -52,11 +73,11 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
     initialFocusRef: closeButtonRef,
   });
 
-  // 3. Variantes de animación GPU optimizadas con curva editorial
+  // 3. Variantes de animación GPU optimizadas (opacity + transform: translateY) con curva editorial
   const dialogVariants: Variants = {
     initial: shouldReduceMotion
       ? { opacity: 0 }
-      : { opacity: 0, y: 30 },
+      : { opacity: 0, y: 32 },
     animate: {
       opacity: 1,
       y: 0,
@@ -69,9 +90,9 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
       ? { opacity: 0 }
       : {
           opacity: 0,
-          y: 20,
+          y: 24,
           transition: {
-            duration: 0.2,
+            duration: 0.22,
             ease: [0.16, 1, 0.3, 1],
           },
         },
@@ -101,13 +122,13 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
   const translatedHeroDesc = heroMetric.description ? t(heroMetric.description) : undefined;
   const translatedImageAlt = imageAlt ? t(imageAlt) : headline;
 
-  return (
+  const overlayContent = (
     <motion.div
       variants={backdropVariants}
       initial="initial"
       animate="animate"
       exit="exit"
-      className="fixed inset-0 z-[60] flex items-center justify-center p-0 md:p-6 lg:p-10 overflow-y-auto bg-ink-headline/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-0 md:p-6 lg:p-10 overflow-y-auto bg-ink-headline/75 transform-gpu will-change-[opacity]"
       onClick={(e) => {
         // Cerrar al clickear el backdrop exterior
         if (e.target === e.currentTarget) {
@@ -122,7 +143,7 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
         aria-labelledby={`article-title-${id}`}
         tabIndex={-1}
         variants={dialogVariants}
-        className="relative w-full max-w-5xl min-h-screen md:min-h-0 bg-paper-base text-ink-body border-x-0 md:border-2 border-rule-bold shadow-2xl my-auto focus:outline-none overflow-hidden max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-5xl min-h-screen md:min-h-0 bg-paper-base text-ink-body border-x-0 md:border-2 border-rule-bold shadow-2xl my-auto focus:outline-none overflow-hidden max-h-[92vh] flex flex-col transform-gpu will-change-[transform,opacity]"
       >
         {/* Barra superior fija de navegación editorial / Cierre */}
         <div className="sticky top-0 z-20 flex justify-between items-center px-4 md:px-8 py-3 bg-paper-base border-b-2 border-rule-bold">
@@ -298,4 +319,8 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
       </motion.div>
     </motion.div>
   );
+
+  return typeof document !== 'undefined'
+    ? createPortal(overlayContent, document.body)
+    : overlayContent;
 };

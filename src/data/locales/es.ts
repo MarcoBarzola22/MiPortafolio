@@ -170,7 +170,7 @@ export const es = {
   'contact.messageLabel': 'Mensaje o Propuesta',
   'contact.messagePlaceholder': 'Describe tu propuesta de proyecto, consulta técnica u oportunidad laboral (mínimo 10 caracteres)...',
   'contact.sendButton': 'Transmitir Despacho',
-  'contact.sending': 'Enviando Mensaje...',
+  'contact.sending': 'Transmitiendo...',
   'contact.successTitle': '¡Despacho Recibido!',
   'contact.successDesc': 'Tu mensaje ha sido transmitido con éxito. Me pondré en contacto a la brevedad.',
   'contact.errorNameRequired': 'El nombre es obligatorio.',
