@@ -33,6 +33,7 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     stack: [
+      'App Móvil',
       'React',
       'TypeScript',
       'React Query',

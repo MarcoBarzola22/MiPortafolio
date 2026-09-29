@@ -255,7 +255,7 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
                 <img
                   src={image}
                   alt={translatedImageAlt}
-                  className="editorial-image w-full h-48 md:h-56 object-cover"
+                  className="editorial-image w-full max-h-[40vh] object-contain object-center bg-[#1a1a1a]"
                 />
                 <div className="p-2 border-t border-rule-light bg-paper-muted text-mono-sm font-mono text-ink-muted">
                   FIG. 01 // VISTA DEL SISTEMA
@@ -291,7 +291,7 @@ export const ArticleOverlay: React.FC<ArticleOverlayProps> = ({ project, onClose
                       key={tech}
                       className="bg-paper-muted border border-rule-light px-2.5 py-1 text-mono-sm font-mono text-ink-headline rounded"
                     >
-                      {tech}
+                      {t(tech)}
                     </span>
                   ))}
                 </div>

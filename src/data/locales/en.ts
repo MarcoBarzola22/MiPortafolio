@@ -57,13 +57,15 @@ export const en: TranslationDictionary = {
   'projects.sectionStack': 'TECH STACK',
   'projects.sectionMetrics': 'IMPACT METRICS',
 
+  'App Móvil': 'Mobile App',
+
   // Case Study 1: SmartForge
-  'project.smartforge.category': 'FULL-STACK · PWA',
-  'project.smartforge.subheadline': 'Biomechanical Intelligent Periodization Engine',
+  'project.smartforge.category': 'MOBILE APP · FULL-STACK · PWA',
+  'project.smartforge.subheadline': 'Mobile App & Biomechanical Intelligent Periodization Engine',
   'project.smartforge.heroMetricLabel': 'Algorithmic Generation',
   'project.smartforge.heroMetricDesc': 'Algorithmic generation of training prescriptions in milliseconds',
-  'project.smartforge.excerpt': 'Digitization and algorithmic optimization of sports periodization, replacing static spreadsheets with a relational joint fatigue model.',
-  'project.smartforge.problemLede': 'A highly qualified coach managed periodization and joint fatigue auditing for clients using static Excel spreadsheets. Calculating dynamic multi-variables—available gym equipment, client schedule constraints, rate of perceived exertion (RPE), and bodyweight-adjusted loading progression—was impossible to scale manually.',
+  'project.smartforge.excerpt': 'Smartphone mobile application (PWA) designed for on-the-floor coaching, digitizing athletic periodization and replacing static spreadsheets with a real-time relational engine.',
+  'project.smartforge.problemLede': 'A highly qualified coach managed periodization and joint fatigue auditing for clients using static Excel spreadsheets. Dynamic calculation of multiple variables on the gym floor required an agile smartphone mobile app to audit equipment, schedules, RPE, and bodyweight progressions in real-time without relying on a desktop workstation.',
   'project.smartforge.constraints': 'Bootstrapped initiative (personal use plus beta phase for a local gym). Required a low-maintenance architecture that remained strictly reproducible when migrating from local development to on-premise gym hardware without discrepancy.',
   'project.smartforge.tradeoff1Area': 'Infrastructure & DevOps',
   'project.smartforge.tradeoff1Quote': 'I took on higher initial DevOps complexity with Docker (PostgreSQL + Node/Express) over a rapid BaaS like Supabase, in exchange for absolute control over the relational engine for biomechanical queries and zero dev/prod parity mismatches.',
@@ -75,7 +77,7 @@ export const en: TranslationDictionary = {
   'project.smartforge.metric2Label': 'Prescription Speed',
   'project.smartforge.metric3Label': 'Dev/Prod Parity Discrepancies',
   'project.smartforge.metric4Label': 'Development Stage',
-  'project.smartforge.imageAlt': 'Screenshot of SmartForge algorithmic engine and dashboard',
+  'project.smartforge.imageAlt': 'Screenshot of SmartForge mobile app interface showing active training mesocycle',
 
   // Case Study 2: FitPlan Desktop
   'project.fitplan.category': 'DESKTOP · OFFLINE-FIRST',

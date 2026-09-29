@@ -88,7 +88,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <img
           src={image}
           alt={translatedImageAlt}
-          className="editorial-image w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="editorial-image w-full h-full object-contain object-center bg-[#1a1a1a] transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-headline/60 via-ink-headline/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
@@ -128,7 +128,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               key={tech}
               className="bg-paper-muted border border-rule-light px-2 py-1 text-mono-sm font-mono text-ink-headline rounded"
             >
-              {tech}
+              {t(tech)}
             </span>
           ))}
         </div>

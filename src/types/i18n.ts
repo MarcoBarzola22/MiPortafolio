@@ -16,11 +16,8 @@ export interface TranslationParams {
   [token: string]: string | number;
 }
 
-/**
- * Contrato de claves inferido directamente del diccionario maestro en español.
- */
-export type TranslationDictionary = typeof import('@/data/locales/es').es;
-export type TranslationKey = keyof TranslationDictionary;
+export type TranslationKey = keyof typeof import('@/data/locales/es').es;
+export type TranslationDictionary = Record<TranslationKey, string>;
 
 /**
  * Contrato del estado y métodos expuestos por I18nContext.
@@ -31,5 +28,5 @@ export interface I18nContextState {
   /** Función para conmutar el idioma activo con persistencia */
   setLanguage: (lang: SupportedLanguage) => void;
   /** Función de traducción con soporte de interpolación de tokens */
-  t: (key: TranslationKey, params?: TranslationParams) => string;
+  t: (key: TranslationKey | (string & {}), params?: TranslationParams) => string;
 }

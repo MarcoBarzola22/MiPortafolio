@@ -120,7 +120,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
   }, [language]);
 
   const t = useCallback(
-    (key: TranslationKey, params?: TranslationParams): string => {
+    (key: TranslationKey | (string & {}), params?: TranslationParams): string => {
       const activeDict = dictionaries[language];
       const fallbackDict = dictionaries.es;
       const rawText = activeDict?.[key] ?? fallbackDict?.[key] ?? key;

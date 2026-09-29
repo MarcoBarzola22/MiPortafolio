@@ -55,13 +55,15 @@ export const es = {
   'projects.sectionStack': 'STACK TÉCNICO',
   'projects.sectionMetrics': 'MÉTRICAS DE IMPACTO',
 
+  'App Móvil': 'App Móvil',
+
   // Caso de Estudio 1: SmartForge
-  'project.smartforge.category': 'FULL-STACK · PWA',
-  'project.smartforge.subheadline': 'Motor Biomecánico de Periodización Inteligente',
+  'project.smartforge.category': 'APP MÓVIL · FULL-STACK · PWA',
+  'project.smartforge.subheadline': 'Aplicación Móvil y Motor Biomecánico de Periodización Inteligente',
   'project.smartforge.heroMetricLabel': 'Generación Algorítmica',
   'project.smartforge.heroMetricDesc': 'Generación algorítmica de prescripciones en milisegundos',
-  'project.smartforge.excerpt': 'Digitalización y optimización algorítmica de la periodización deportiva, reemplazando hojas de cálculo estáticas por un motor relacional de fatiga articular.',
-  'project.smartforge.problemLede': 'Un entrenador altamente cualificado gestionaba la periodización y auditoría de fatiga articular de sus clientes mediante hojas de cálculo estáticas en Excel. El cálculo dinámico de múltiples variables —equipo disponible en el gimnasio, restricciones horarias del cliente, esfuerzo percibido (RPE) y progresión de cargas cruzada con peso corporal— era imposible de escalar manualmente.',
+  'project.smartforge.excerpt': 'Aplicación para celular (PWA) de digitalización y optimización algorítmica de la periodización deportiva, reemplazando hojas de cálculo estáticas por un motor relacional en tiempo real.',
+  'project.smartforge.problemLede': 'Un entrenador altamente cualificado gestionaba la periodización y auditoría de fatiga articular de sus clientes mediante hojas de cálculo estáticas en Excel. El cálculo dinámico de múltiples variables en la sala de entrenamiento requería una aplicación móvil ágil para celular que permitiera auditar en tiempo real el equipo disponible, restricciones del cliente, esfuerzo percibido (RPE) y progresión de cargas sin depender de una computadora.',
   'project.smartforge.constraints': 'Proyecto bootstrapped (iniciado para uso personal y fase beta para un gimnasio local). Requería una arquitectura de muy bajo coste de mantenimiento, pero estrictamente replicable para poder migrar de un entorno local de desarrollo a la infraestructura del gimnasio sin fricción ni discrepancias.',
   'project.smartforge.tradeoff1Area': 'Infraestructura & DevOps',
   'project.smartforge.tradeoff1Quote': 'Asumí mayor complejidad DevOps inicial con Docker (PostgreSQL + Node/Express) en lugar de un BaaS rápido como Supabase, a cambio de control absoluto sobre el motor relacional para consultas biomecánicas y cero discrepancias entre desarrollo y producción.',
@@ -73,7 +75,7 @@ export const es = {
   'project.smartforge.metric2Label': 'Velocidad de Prescripción',
   'project.smartforge.metric3Label': 'Discrepancias Dev/Prod',
   'project.smartforge.metric4Label': 'Fase de Desarrollo',
-  'project.smartforge.imageAlt': 'Captura del motor algorítmico y dashboard de SmartForge',
+  'project.smartforge.imageAlt': 'Captura de la aplicación móvil SmartForge en celular mostrando el mesociclo activo',
 
   // Caso de Estudio 2: FitPlan Desktop
   'project.fitplan.category': 'DESKTOP · OFFLINE-FIRST',
