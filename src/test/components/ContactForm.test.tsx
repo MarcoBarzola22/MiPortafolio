@@ -1,11 +1,24 @@
 import React from 'react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axe from 'axe-core';
 import { I18nProvider } from '@/context/I18nContext';
 import ContactForm from '@/components/ContactForm';
 
 describe('ContactForm Component (Zod validation & a11y)', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.spyOn(global, 'fetch').mockImplementation(async () =>
+      new Response(JSON.stringify({ success: true, message: 'Submission successful' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it('renderiza todos los campos de formulario y botones en español por defecto', () => {
     render(
       <I18nProvider initialLanguage="es">
@@ -78,7 +91,9 @@ describe('ContactForm Component (Zod validation & a11y)', () => {
     });
   });
 
-  it('procesa el envío correctamente con datos válidos y limpia el formulario', async () => {
+  it('procesa el envío correctamente con datos válidos hacia la API de Web3Forms y limpia el formulario', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch');
+
     render(
       <I18nProvider initialLanguage="es">
         <ContactForm />
@@ -107,9 +122,63 @@ describe('ContactForm Component (Zod validation & a11y)', () => {
       { timeout: 3500 }
     );
 
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'https://api.web3forms.com/submit',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
+    );
+
+    const callArgs = fetchSpy.mock.calls[0];
+    const requestBody = JSON.parse(callArgs[1]?.body as string);
+    expect(requestBody).toMatchObject({
+      access_key: expect.any(String),
+      name: 'Juan Perez',
+      email: 'juan.perez@example.com',
+      message: 'Hola Marco, nos interesa coordinar una entrevista técnica.',
+    });
+    expect(requestBody.subject).toBeDefined();
+
     expect(nameInput.value).toBe('');
     expect(emailInput.value).toBe('');
     expect(messageInput.value).toBe('');
+  });
+
+  it('maneja errores de la API de Web3Forms de forma controlada restaurando el estado de envío', async () => {
+    vi.spyOn(global, 'fetch').mockImplementation(async () =>
+      new Response(JSON.stringify({ success: false, message: 'Invalid access key' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
+
+    render(
+      <I18nProvider initialLanguage="es">
+        <ContactForm />
+      </I18nProvider>
+    );
+
+    const nameInput = screen.getByLabelText(/Nombre Completo/i);
+    const emailInput = screen.getByLabelText(/Correo Electrónico/i);
+    const messageInput = screen.getByLabelText(/Mensaje o Propuesta/i);
+    const submitBtn = screen.getByRole('button', { name: /Transmitir Despacho/i });
+
+    fireEvent.change(nameInput, { target: { value: 'Juan Perez' } });
+    fireEvent.change(emailInput, { target: { value: 'juan.perez@example.com' } });
+    fireEvent.change(messageInput, { target: { value: 'Hola Marco, este envío debe fallar.' } });
+
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(submitBtn).not.toBeDisabled();
+    });
+
+    expect(screen.queryByText(/¡Despacho Recibido!/i)).not.toBeInTheDocument();
   });
 
   it('cumple con las pautas de accesibilidad WCAG 2.1 AA (axe-core)', async () => {

@@ -18,9 +18,13 @@ interface FormErrors {
 
 interface ContactFormProps {
   simulationDelay?: number;
+  subject?: string;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ simulationDelay = 1500 }) => {
+export const ContactForm: React.FC<ContactFormProps> = ({
+  simulationDelay = 1500,
+  subject,
+}) => {
   const { t } = useTranslation();
 
   const [formData, setFormData] = useState<FormData>({
@@ -91,8 +95,29 @@ export const ContactForm: React.FC<ContactFormProps> = ({ simulationDelay = 1500
     setIsSubmitting(true);
 
     try {
-      // Simular transmisión asíncrona segura del despacho telegrafiado (1.5 segundos)
-      await new Promise((resolve) => setTimeout(resolve, simulationDelay));
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      const emailSubject = subject || `Nuevo mensaje de ${result.data.name} - Portafolio`;
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: result.data.name,
+          email: result.data.email,
+          subject: emailSubject,
+          message: result.data.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Error al enviar el despacho');
+      }
 
       setIsSuccess(true);
       setFormData({ name: '', email: '', message: '' });
