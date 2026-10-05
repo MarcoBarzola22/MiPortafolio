@@ -17,12 +17,10 @@ interface FormErrors {
 }
 
 interface ContactFormProps {
-  simulationDelay?: number;
   subject?: string;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
-  simulationDelay = 1500,
   subject,
 }) => {
   const { t } = useTranslation();
